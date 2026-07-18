@@ -96,12 +96,16 @@ function StopGo() {
       sfx.good();
       setScore((s) => s + 1);
       setSignal(null);
+      frust("stopgo", "hit");
     } else if (signal === "stop") {
       sfx.bad();
       setMisses((m) => m + 1);
       setSignal(null);
+      frust("stopgo", "miss");
     }
   }
+
+  useEndlessAutoRestart("stopgo", state === "done", () => start());
 
   const bg =
     signal === "go"
