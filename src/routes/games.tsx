@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Timer, Brain, Hand, Repeat, Zap, Eye, Wind, Target, Search, ListOrdered, Layers, Palette, MoveHorizontal, Music, Hourglass, ClipboardList, Shuffle } from "lucide-react";
+import { Timer, Brain, Hand, Repeat, Zap, Eye, Wind, Target, Search, ListOrdered, Layers, Palette, MoveHorizontal, Music, Hourglass, ClipboardList, Shuffle, Calculator, BookA } from "lucide-react";
 
 export const Route = createFileRoute("/games")({
   head: () => ({
@@ -29,6 +29,8 @@ const items = [
   { to: "/hold", title: "Hold Steady", desc: "Wait for the green star", Icon: Hourglass, tag: "Self-control" },
   { to: "/plando", title: "Plan → Do", desc: "Memorize a plan, then execute it in order", Icon: ClipboardList, tag: "Planning" },
   { to: "/switch", title: "Rule Switch", desc: "Follow the rule that keeps changing", Icon: Shuffle, tag: "Flexibility" },
+  { to: "/math", title: "Quick Math", desc: "Add, subtract, missing number", Icon: Calculator, tag: "Learn" },
+  { to: "/words", title: "Word Builder", desc: "Fill the missing letter", Icon: BookA, tag: "Learn" },
 ] as const;
 
 function Games() {

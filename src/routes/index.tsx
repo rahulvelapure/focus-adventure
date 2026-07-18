@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen, Flame, MoveHorizontal, Music, Hourglass, ClipboardList, Shuffle } from "lucide-react";
+import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen, Flame, MoveHorizontal, Music, Hourglass, ClipboardList, Shuffle, GraduationCap } from "lucide-react";
 import mascot from "@/assets/mascot.png";
 import { useStars } from "@/lib/stars";
 import { useQuests } from "@/lib/quests";
@@ -234,6 +234,21 @@ function Home() {
           <p className="text-xs text-muted-foreground">Fun ADHD lessons</p>
         </Link>
       </div>
+
+      <Link
+        to="/learnplay"
+        className="mt-3 flex items-center gap-3 rounded-2xl p-4 text-primary-foreground shadow-[var(--shadow-soft)]"
+        style={{ background: "linear-gradient(135deg, oklch(0.72 0.17 210), oklch(0.75 0.16 320))" }}
+      >
+        <span className="grid size-11 place-items-center rounded-2xl bg-white/25">
+          <GraduationCap className="size-6" aria-hidden />
+        </span>
+        <span className="flex-1">
+          <span className="block font-display text-base leading-tight">Learn &amp; Play</span>
+          <span className="block text-xs opacity-90">Quick Math &amp; Word Builder — adaptive, star-rewarded</span>
+        </span>
+        <span className="rounded-full bg-white/25 px-3 py-1 text-xs font-bold">Open</span>
+      </Link>
     </div>
   );
 }

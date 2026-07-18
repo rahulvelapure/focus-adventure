@@ -56,6 +56,8 @@ function suggestionFor(gameId: string): Suggestion {
     oddone:  { title: "All look the same?", body: "Slow eyes beat fast eyes — scan in a path.", action: { label: "Find the Star", to: "/spot" } },
     plando:  { title: "Plan slipped?", body: "Say the steps out loud before you tap the first one.", action: { label: "Number Line", to: "/sort" } },
     switch:  { title: "Rule switching your brain?", body: "Whisper the rule ('COLOR' or 'SHAPE') before every tap.", action: { label: "Middle Arrow", to: "/flanker" } },
+    math:    { title: "Numbers feeling tricky?", body: "Slow down. Read it, whisper it, then tap.", action: { label: "Calm bubble", to: "/breathe" } },
+    words:   { title: "Letters getting muddled?", body: "Sound the word out loud, one chunk at a time.", action: { label: "Calm bubble", to: "/breathe" } },
   };
   return map[gameId] ?? { title: "Take a tiny break.", body: "One slow breath in. One slow breath out. You've got this.", action: { label: "Calm bubble", to: "/breathe" } };
 }

@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WordsRouteImport } from './routes/words'
 import { Route as WhackRouteImport } from './routes/whack'
 import { Route as SwitchRouteImport } from './routes/switch'
 import { Route as StroopRouteImport } from './routes/stroop'
@@ -24,6 +25,8 @@ import { Route as PlandoRouteImport } from './routes/plando'
 import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as NbackRouteImport } from './routes/nback'
 import { Route as MemoryRouteImport } from './routes/memory'
+import { Route as MathRouteImport } from './routes/math'
+import { Route as LearnplayRouteImport } from './routes/learnplay'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HoldRouteImport } from './routes/hold'
 import { Route as GuideRouteImport } from './routes/guide'
@@ -33,6 +36,11 @@ import { Route as FlankerRouteImport } from './routes/flanker'
 import { Route as BreatheRouteImport } from './routes/breathe'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WordsRoute = WordsRouteImport.update({
+  id: '/words',
+  path: '/words',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WhackRoute = WhackRouteImport.update({
   id: '/whack',
   path: '/whack',
@@ -108,6 +116,16 @@ const MemoryRoute = MemoryRouteImport.update({
   path: '/memory',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MathRoute = MathRouteImport.update({
+  id: '/math',
+  path: '/math',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnplayRoute = LearnplayRouteImport.update({
+  id: '/learnplay',
+  path: '/learnplay',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
@@ -158,6 +176,8 @@ export interface FileRoutesByFullPath {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/learnplay': typeof LearnplayRoute
+  '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
@@ -173,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/stroop': typeof StroopRoute
   '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
+  '/words': typeof WordsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -183,6 +204,8 @@ export interface FileRoutesByTo {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/learnplay': typeof LearnplayRoute
+  '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
@@ -198,6 +221,7 @@ export interface FileRoutesByTo {
   '/stroop': typeof StroopRoute
   '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
+  '/words': typeof WordsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -209,6 +233,8 @@ export interface FileRoutesById {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/learnplay': typeof LearnplayRoute
+  '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
@@ -224,6 +250,7 @@ export interface FileRoutesById {
   '/stroop': typeof StroopRoute
   '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
+  '/words': typeof WordsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -236,6 +263,8 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/learnplay'
+    | '/math'
     | '/memory'
     | '/nback'
     | '/oddone'
@@ -251,6 +280,7 @@ export interface FileRouteTypes {
     | '/stroop'
     | '/switch'
     | '/whack'
+    | '/words'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -261,6 +291,8 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/learnplay'
+    | '/math'
     | '/memory'
     | '/nback'
     | '/oddone'
@@ -276,6 +308,7 @@ export interface FileRouteTypes {
     | '/stroop'
     | '/switch'
     | '/whack'
+    | '/words'
   id:
     | '__root__'
     | '/'
@@ -286,6 +319,8 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/learnplay'
+    | '/math'
     | '/memory'
     | '/nback'
     | '/oddone'
@@ -301,6 +336,7 @@ export interface FileRouteTypes {
     | '/stroop'
     | '/switch'
     | '/whack'
+    | '/words'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -312,6 +348,8 @@ export interface RootRouteChildren {
   GuideRoute: typeof GuideRoute
   HoldRoute: typeof HoldRoute
   LearnRoute: typeof LearnRoute
+  LearnplayRoute: typeof LearnplayRoute
+  MathRoute: typeof MathRoute
   MemoryRoute: typeof MemoryRoute
   NbackRoute: typeof NbackRoute
   OddoneRoute: typeof OddoneRoute
@@ -327,10 +365,18 @@ export interface RootRouteChildren {
   StroopRoute: typeof StroopRoute
   SwitchRoute: typeof SwitchRoute
   WhackRoute: typeof WhackRoute
+  WordsRoute: typeof WordsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/words': {
+      id: '/words'
+      path: '/words'
+      fullPath: '/words'
+      preLoaderRoute: typeof WordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/whack': {
       id: '/whack'
       path: '/whack'
@@ -436,6 +482,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/math': {
+      id: '/math'
+      path: '/math'
+      fullPath: '/math'
+      preLoaderRoute: typeof MathRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learnplay': {
+      id: '/learnplay'
+      path: '/learnplay'
+      fullPath: '/learnplay'
+      preLoaderRoute: typeof LearnplayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn': {
       id: '/learn'
       path: '/learn'
@@ -504,6 +564,8 @@ const rootRouteChildren: RootRouteChildren = {
   GuideRoute: GuideRoute,
   HoldRoute: HoldRoute,
   LearnRoute: LearnRoute,
+  LearnplayRoute: LearnplayRoute,
+  MathRoute: MathRoute,
   MemoryRoute: MemoryRoute,
   NbackRoute: NbackRoute,
   OddoneRoute: OddoneRoute,
@@ -519,6 +581,7 @@ const rootRouteChildren: RootRouteChildren = {
   StroopRoute: StroopRoute,
   SwitchRoute: SwitchRoute,
   WhackRoute: WhackRoute,
+  WordsRoute: WordsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

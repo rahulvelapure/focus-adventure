@@ -511,6 +511,64 @@ export const CBT_LESSONS: LessonMap = {
       ],
     }),
   },
+  math: {
+    easy: planning({
+      skill: "Read · Solve · Check",
+      why: "Math slips usually happen from rushing — a 2-second scan doubles your accuracy.",
+      lesson: [
+        "READ the whole problem before you tap.",
+        "SOLVE in your head, whisper the answer.",
+        "CHECK: does your answer make sense?",
+      ],
+    }),
+    medium: stopThinkGo({
+      skill: "Pause · Compute · Tap",
+      why: "Bigger numbers tempt guesses — pause a beat and the right answer usually appears.",
+      lesson: [
+        "See the numbers, don't panic.",
+        "Count on fingers if it helps — it's a tool, not cheating.",
+        "Only tap when your brain says 'yes'.",
+      ],
+    }),
+    hard: chunking({
+      skill: "Chunk the number",
+      why: "For 2-digit sums, split into tens + ones — your whiteboard fits it.",
+      lesson: [
+        "Break 27 into 20 and 7.",
+        "Add the tens first, then the ones.",
+        "Whisper each step so you don't drop it.",
+      ],
+    }),
+  },
+  words: {
+    easy: focusMuscle({
+      skill: "Look · Sound · Pick",
+      why: "Your brain wants to grab the first letter — anchor to the WHOLE word instead.",
+      lesson: [
+        "LOOK at every letter, left to right.",
+        "SOUND the word out in your head.",
+        "PICK the letter that fits the sound.",
+      ],
+    }),
+    medium: planning({
+      skill: "Sound-it-out plan",
+      why: "Longer words need a mini-plan: split, sound, pick.",
+      lesson: [
+        "Split the word into chunks (cat = c-at).",
+        "Sound each chunk.",
+        "Pick the letter that finishes the sound.",
+      ],
+    }),
+    hard: restructure({
+      skill: "Swap the 'I can't read' thought",
+      why: "Sticky thoughts stop reading before it starts — swap them.",
+      lesson: [
+        "Catch: 'this word is too hard.'",
+        "Check: I know some letters already.",
+        "Swap: 'I'll sound out one chunk at a time.'",
+      ],
+    }),
+  },
 };
 
 const DONE_KEY = (gameId: string, level: CbtLevel) =>
