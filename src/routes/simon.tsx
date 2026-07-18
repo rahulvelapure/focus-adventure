@@ -102,6 +102,7 @@ function Simon() {
   }
 
   useEffect(() => () => setActive(null), []);
+  useEndlessAutoRestart("simon", phase === "over", () => { setStep(0); begin(); });
 
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">
