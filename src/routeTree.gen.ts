@@ -24,6 +24,7 @@ import { Route as PlandoRouteImport } from './routes/plando'
 import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as NbackRouteImport } from './routes/nback'
 import { Route as MemoryRouteImport } from './routes/memory'
+import { Route as MathRouteImport } from './routes/math'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HoldRouteImport } from './routes/hold'
 import { Route as GuideRouteImport } from './routes/guide'
@@ -108,6 +109,11 @@ const MemoryRoute = MemoryRouteImport.update({
   path: '/memory',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MathRoute = MathRouteImport.update({
+  id: '/math',
+  path: '/math',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
@@ -209,6 +217,7 @@ export interface FileRoutesById {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
@@ -236,6 +245,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/math'
     | '/memory'
     | '/nback'
     | '/oddone'
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/math'
     | '/memory'
     | '/nback'
     | '/oddone'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/math'
     | '/memory'
     | '/nback'
     | '/oddone'
@@ -312,6 +324,7 @@ export interface RootRouteChildren {
   GuideRoute: typeof GuideRoute
   HoldRoute: typeof HoldRoute
   LearnRoute: typeof LearnRoute
+  MathRoute: typeof MathRoute
   MemoryRoute: typeof MemoryRoute
   NbackRoute: typeof NbackRoute
   OddoneRoute: typeof OddoneRoute
@@ -436,6 +449,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/math': {
+      id: '/math'
+      path: '/math'
+      fullPath: '/math'
+      preLoaderRoute: typeof MathRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn': {
       id: '/learn'
       path: '/learn'
@@ -504,6 +524,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuideRoute: GuideRoute,
   HoldRoute: HoldRoute,
   LearnRoute: LearnRoute,
+  MathRoute: MathRoute,
   MemoryRoute: MemoryRoute,
   NbackRoute: NbackRoute,
   OddoneRoute: OddoneRoute,
