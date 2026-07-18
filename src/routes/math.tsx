@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Calculator, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
-import { sfx, haptic } from "@/lib/feedback";
+import { sfx, vibe } from "@/lib/feedback";
 import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
@@ -93,7 +93,7 @@ function QuickMath() {
     setTotal((t) => t + 1);
     if (v === q.answer) {
       sfx.good();
-      haptic.light();
+      vibe(15);
       frust("math", "hit");
       const s = streak + 1;
       setStreak(s);
@@ -107,7 +107,7 @@ function QuickMath() {
       window.setTimeout(next, 550);
     } else {
       sfx.bad();
-      haptic.error();
+      vibe([30, 40, 30]);
       frust("math", "miss");
       setStreak(0);
       window.setTimeout(next, 900);
