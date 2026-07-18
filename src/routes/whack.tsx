@@ -125,6 +125,7 @@ function Whack() {
     } else if (c === "nogo") {
       sfx.bad();
       setMisses((m) => m + 1);
+      frust("whack", "miss");
       setScore((s) => Math.max(0, s - 1));
       setCells((prev) => {
         const n = [...prev];
