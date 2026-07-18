@@ -1,6 +1,16 @@
 import { useEffect, useState, useCallback } from "react";
 
-export type Theme = "sunrise" | "ocean" | "forest" | "candy" | "night";
+export type Theme =
+  | "sunrise"
+  | "ocean"
+  | "forest"
+  | "candy"
+  | "night"
+  | "galaxy"
+  | "mint"
+  | "peach"
+  | "berry"
+  | "bumblebee";
 
 export const THEMES: { id: Theme; label: string; swatch: string[] }[] = [
   { id: "sunrise", label: "Sunrise", swatch: ["#F0784A", "#FFC96B", "#FAF5EA"] },
@@ -8,6 +18,11 @@ export const THEMES: { id: Theme; label: string; swatch: string[] }[] = [
   { id: "forest", label: "Forest", swatch: ["#3E8E5A", "#B8D96A", "#F1F5EA"] },
   { id: "candy", label: "Candy", swatch: ["#E85A9E", "#B592F0", "#FCEFF6"] },
   { id: "night", label: "Night", swatch: ["#8FA6FF", "#F1C86A", "#1A1B2E"] },
+  { id: "galaxy", label: "Galaxy", swatch: ["#7A5CF0", "#F26AC8", "#1B1638"] },
+  { id: "mint", label: "Mint", swatch: ["#3FBFA6", "#A8ECD4", "#EEFBF6"] },
+  { id: "peach", label: "Peach", swatch: ["#FF8FA0", "#FFD3A3", "#FFF3EC"] },
+  { id: "berry", label: "Berry", swatch: ["#8A3FA6", "#E36BB0", "#F7ECF6"] },
+  { id: "bumblebee", label: "Bumblebee", swatch: ["#F5B301", "#2A2A2A", "#FFF8DC"] },
 ];
 
 type Settings = {
