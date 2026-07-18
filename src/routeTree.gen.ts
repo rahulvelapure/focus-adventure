@@ -26,6 +26,7 @@ import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as NbackRouteImport } from './routes/nback'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as MathRouteImport } from './routes/math'
+import { Route as LearnplayRouteImport } from './routes/learnplay'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HoldRouteImport } from './routes/hold'
 import { Route as GuideRouteImport } from './routes/guide'
@@ -120,6 +121,11 @@ const MathRoute = MathRouteImport.update({
   path: '/math',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnplayRoute = LearnplayRouteImport.update({
+  id: '/learnplay',
+  path: '/learnplay',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
@@ -170,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/learnplay': typeof LearnplayRoute
   '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/learnplay': typeof LearnplayRoute
   '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
@@ -225,6 +233,7 @@ export interface FileRoutesById {
   '/guide': typeof GuideRoute
   '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
+  '/learnplay': typeof LearnplayRoute
   '/math': typeof MathRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/learnplay'
     | '/math'
     | '/memory'
     | '/nback'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/learnplay'
     | '/math'
     | '/memory'
     | '/nback'
@@ -308,6 +319,7 @@ export interface FileRouteTypes {
     | '/guide'
     | '/hold'
     | '/learn'
+    | '/learnplay'
     | '/math'
     | '/memory'
     | '/nback'
@@ -336,6 +348,7 @@ export interface RootRouteChildren {
   GuideRoute: typeof GuideRoute
   HoldRoute: typeof HoldRoute
   LearnRoute: typeof LearnRoute
+  LearnplayRoute: typeof LearnplayRoute
   MathRoute: typeof MathRoute
   MemoryRoute: typeof MemoryRoute
   NbackRoute: typeof NbackRoute
@@ -476,6 +489,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MathRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learnplay': {
+      id: '/learnplay'
+      path: '/learnplay'
+      fullPath: '/learnplay'
+      preLoaderRoute: typeof LearnplayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn': {
       id: '/learn'
       path: '/learn'
@@ -544,6 +564,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuideRoute: GuideRoute,
   HoldRoute: HoldRoute,
   LearnRoute: LearnRoute,
+  LearnplayRoute: LearnplayRoute,
   MathRoute: MathRoute,
   MemoryRoute: MemoryRoute,
   NbackRoute: NbackRoute,
