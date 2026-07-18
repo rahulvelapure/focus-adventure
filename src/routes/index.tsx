@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen } from "lucide-react";
+import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen, Flame } from "lucide-react";
 import mascot from "@/assets/mascot.png";
 import { useStars } from "@/lib/stars";
+import { useQuests } from "@/lib/quests";
+import { OfflineBadge } from "@/components/OfflineBadge";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -89,6 +91,7 @@ const games = [
 
 function Home() {
   const { stars, hydrated } = useStars();
+  const { streak, doneCount, total } = useQuests();
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">
       <header className="flex items-center justify-between">
@@ -96,14 +99,40 @@ function Home() {
           <p className="text-sm font-semibold text-muted-foreground">Hi friend 👋</p>
           <h1 className="mt-1 text-3xl font-display">FoxFocus</h1>
         </div>
-        <div
-          className="flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 text-accent-foreground shadow-[var(--shadow-soft)]"
-          aria-label={`${stars} stars earned`}
-        >
-          <Star className="size-4 fill-current" aria-hidden />
-          <span className="font-bold tabular-nums">{hydrated ? stars : 0}</span>
+        <div className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-1 rounded-full bg-muted px-2.5 py-1.5 text-muted-foreground"
+            aria-label={`${streak} day streak`}
+            title="Day streak"
+          >
+            <Flame className="size-4 text-primary" aria-hidden />
+            <span className="font-bold tabular-nums text-foreground">{hydrated ? streak : 0}</span>
+          </div>
+          <div
+            className="flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 text-accent-foreground shadow-[var(--shadow-soft)]"
+            aria-label={`${stars} stars earned`}
+          >
+            <Star className="size-4 fill-current" aria-hidden />
+            <span className="font-bold tabular-nums">{hydrated ? stars : 0}</span>
+          </div>
         </div>
       </header>
+      <OfflineBadge />
+
+      <Link
+        to="/quests"
+        className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-[var(--shadow-soft)]"
+      >
+        <div>
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <Flame className="size-3.5 text-primary" /> Today's quests
+          </p>
+          <p className="mt-1 font-display text-base">
+            {doneCount} of {total} done — keep the streak going!
+          </p>
+        </div>
+        <span className="rounded-full bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground">Open</span>
+      </Link>
 
       <section
         className="relative mt-6 overflow-hidden rounded-3xl p-5"
