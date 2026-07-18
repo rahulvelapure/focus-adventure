@@ -5,6 +5,7 @@ import { useStars } from "@/lib/stars";
 import { useBest } from "@/lib/scores";
 import { sfx } from "@/lib/feedback";
 import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
 
@@ -139,6 +140,7 @@ function Whack() {
         Tap the orange foxes 🦊. Skip the sleepy purple ones 😴.
       </p>
       <DifficultyPicker gameId="whack" endlessSupported />
+      <CbtCoach gameId="whack" />
 
       <div className="mt-4 grid grid-cols-3 gap-2 text-center text-sm font-bold">
         <span className="rounded-xl bg-muted p-2">Score<br /><span className="text-primary text-lg">{score}</span></span>
