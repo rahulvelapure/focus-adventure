@@ -4,6 +4,8 @@ import { Play, RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
 import { CbtCoach } from "@/components/CbtCoach";
+import { signal as frust } from "@/lib/frustration";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/stopgo")({
   head: () => ({
