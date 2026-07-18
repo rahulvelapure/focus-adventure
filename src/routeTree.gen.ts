@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WhackRouteImport } from './routes/whack'
 import { Route as StopgoRouteImport } from './routes/stopgo'
 import { Route as SimonRouteImport } from './routes/simon'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -21,6 +22,11 @@ import { Route as FocusRouteImport } from './routes/focus'
 import { Route as BreatheRouteImport } from './routes/breathe'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WhackRoute = WhackRouteImport.update({
+  id: '/whack',
+  path: '/whack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StopgoRoute = StopgoRouteImport.update({
   id: '/stopgo',
   path: '/stopgo',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
   '/stopgo': typeof StopgoRoute
+  '/whack': typeof WhackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
   '/stopgo': typeof StopgoRoute
+  '/whack': typeof WhackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
   '/stopgo': typeof StopgoRoute
+  '/whack': typeof WhackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/simon'
     | '/stopgo'
+    | '/whack'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/simon'
     | '/stopgo'
+    | '/whack'
   id:
     | '__root__'
     | '/'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/simon'
     | '/stopgo'
+    | '/whack'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,10 +183,18 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SimonRoute: typeof SimonRoute
   StopgoRoute: typeof StopgoRoute
+  WhackRoute: typeof WhackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/whack': {
+      id: '/whack'
+      path: '/whack'
+      fullPath: '/whack'
+      preLoaderRoute: typeof WhackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stopgo': {
       id: '/stopgo'
       path: '/stopgo'
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SimonRoute: SimonRoute,
   StopgoRoute: StopgoRoute,
+  WhackRoute: WhackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
