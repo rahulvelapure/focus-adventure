@@ -31,10 +31,28 @@ type Settings = {
   haptics: boolean;
   name: string;
   focusMode: boolean;
+  // Accessibility
+  dyslexiaFont: boolean;
+  textScale: "sm" | "md" | "lg" | "xl";
+  highContrast: boolean;
+  // Coaching
+  frustrationSensitivity: "low" | "medium" | "high";
+  coachIntensity: "minimal" | "balanced" | "frequent";
 };
 
 const KEY = "foxfocus.settings.v1";
-const DEFAULT: Settings = { theme: "sunrise", sound: true, haptics: true, name: "", focusMode: false };
+const DEFAULT: Settings = {
+  theme: "sunrise",
+  sound: true,
+  haptics: true,
+  name: "",
+  focusMode: false,
+  dyslexiaFont: false,
+  textScale: "md",
+  highContrast: false,
+  frustrationSensitivity: "medium",
+  coachIntensity: "balanced",
+};
 
 function read(): Settings {
   if (typeof window === "undefined") return DEFAULT;
@@ -63,6 +81,15 @@ export function applyTheme(theme: Theme) {
   else document.documentElement.classList.remove("dark");
 }
 
+export function applyA11y(s: Pick<Settings, "dyslexiaFont" | "textScale" | "highContrast">) {
+  if (typeof document === "undefined") return;
+  const html = document.documentElement;
+  html.setAttribute("data-font", s.dyslexiaFont ? "dyslexic" : "default");
+  html.setAttribute("data-text-scale", s.textScale);
+  if (s.highContrast) html.setAttribute("data-contrast", "high");
+  else html.removeAttribute("data-contrast");
+}
+
 export function useSettings() {
   const [settings, setSettings] = useState<Settings>(DEFAULT);
   const [hydrated, setHydrated] = useState(false);
@@ -71,6 +98,7 @@ export function useSettings() {
     const s = read();
     setSettings(s);
     applyTheme(s.theme);
+    applyA11y(s);
     setHydrated(true);
     const on = () => setSettings(read());
     window.addEventListener("foxfocus:settings", on);
@@ -85,6 +113,7 @@ export function useSettings() {
     write(next);
     setSettings(next);
     if (patch.theme) applyTheme(patch.theme);
+    if ("dyslexiaFont" in patch || "textScale" in patch || "highContrast" in patch) applyA11y(next);
   }, []);
 
   return { settings, update, hydrated };
@@ -99,6 +128,12 @@ export function isHapticsOn() {
 }
 export function isFocusModeOn() {
   return read().focusMode;
+}
+export function getFrustrationSensitivity(): "low" | "medium" | "high" {
+  return read().frustrationSensitivity;
+}
+export function getCoachIntensity(): "minimal" | "balanced" | "frequent" {
+  return read().coachIntensity;
 }
 
 /** Best-effort request for browser fullscreen. Silently no-ops if blocked. */
