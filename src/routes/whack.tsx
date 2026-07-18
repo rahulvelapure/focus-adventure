@@ -116,6 +116,7 @@ function Whack() {
     if (c === "go") {
       sfx.good();
       setScore((s) => s + 1);
+      frust("whack", "hit");
       setCells((prev) => {
         const n = [...prev];
         n[i] = "empty";
