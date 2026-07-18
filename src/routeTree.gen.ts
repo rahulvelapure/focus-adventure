@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WordsRouteImport } from './routes/words'
 import { Route as WhackRouteImport } from './routes/whack'
 import { Route as SwitchRouteImport } from './routes/switch'
 import { Route as StroopRouteImport } from './routes/stroop'
@@ -34,6 +35,11 @@ import { Route as FlankerRouteImport } from './routes/flanker'
 import { Route as BreatheRouteImport } from './routes/breathe'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WordsRoute = WordsRouteImport.update({
+  id: '/words',
+  path: '/words',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WhackRoute = WhackRouteImport.update({
   id: '/whack',
   path: '/whack',
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/stroop': typeof StroopRoute
   '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
+  '/words': typeof WordsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/stroop': typeof StroopRoute
   '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
+  '/words': typeof WordsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -233,6 +241,7 @@ export interface FileRoutesById {
   '/stroop': typeof StroopRoute
   '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
+  '/words': typeof WordsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -261,6 +270,7 @@ export interface FileRouteTypes {
     | '/stroop'
     | '/switch'
     | '/whack'
+    | '/words'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/stroop'
     | '/switch'
     | '/whack'
+    | '/words'
   id:
     | '__root__'
     | '/'
@@ -313,6 +324,7 @@ export interface FileRouteTypes {
     | '/stroop'
     | '/switch'
     | '/whack'
+    | '/words'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -340,10 +352,18 @@ export interface RootRouteChildren {
   StroopRoute: typeof StroopRoute
   SwitchRoute: typeof SwitchRoute
   WhackRoute: typeof WhackRoute
+  WordsRoute: typeof WordsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/words': {
+      id: '/words'
+      path: '/words'
+      fullPath: '/words'
+      preLoaderRoute: typeof WordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/whack': {
       id: '/whack'
       path: '/whack'
@@ -540,6 +560,7 @@ const rootRouteChildren: RootRouteChildren = {
   StroopRoute: StroopRoute,
   SwitchRoute: SwitchRoute,
   WhackRoute: WhackRoute,
+  WordsRoute: WordsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
