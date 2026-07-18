@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat } from "lucide-react";
+import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen } from "lucide-react";
 import mascot from "@/assets/mascot.png";
 import { useStars } from "@/lib/stars";
 
@@ -56,6 +56,34 @@ const games = [
     desc: "Spot the different one.",
     Icon: Eye,
     grad: "linear-gradient(135deg, oklch(0.68 0.18 300), oklch(0.78 0.14 250))",
+  },
+  {
+    to: "/whack" as const,
+    title: "Whack-a-Fox",
+    desc: "Tap fox, skip sleepy.",
+    Icon: Target,
+    grad: "linear-gradient(135deg, oklch(0.72 0.19 35), oklch(0.7 0.18 350))",
+  },
+  {
+    to: "/nback" as const,
+    title: "Match Back",
+    desc: "Same as last one?",
+    Icon: Layers,
+    grad: "linear-gradient(135deg, oklch(0.65 0.16 200), oklch(0.75 0.15 260))",
+  },
+  {
+    to: "/sort" as const,
+    title: "Number Line",
+    desc: "Small to big!",
+    Icon: ListOrdered,
+    grad: "linear-gradient(135deg, oklch(0.72 0.17 140), oklch(0.82 0.15 90))",
+  },
+  {
+    to: "/spot" as const,
+    title: "Find the Star",
+    desc: "Scan and tap.",
+    Icon: Search,
+    grad: "linear-gradient(135deg, oklch(0.75 0.15 60), oklch(0.72 0.18 25))",
   },
 ];
 
@@ -130,9 +158,9 @@ function Home() {
           to="/learn"
           className="rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-[var(--shadow-soft)]"
         >
-          <Sparkles className="size-5 text-primary" aria-hidden />
-          <p className="mt-2 font-display text-sm">For grown-ups</p>
-          <p className="text-xs text-muted-foreground">How this helps</p>
+          <BookOpen className="size-5 text-primary" aria-hidden />
+          <p className="mt-2 font-display text-sm">Learn your brain</p>
+          <p className="text-xs text-muted-foreground">Fun ADHD lessons</p>
         </Link>
       </div>
     </div>
