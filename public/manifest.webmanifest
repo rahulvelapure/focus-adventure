@@ -1,0 +1,15 @@
+{
+  "name": "FoxFocus — ADHD games for kids",
+  "short_name": "FoxFocus",
+  "description": "Playful focus, memory, self-control and calm-down games for kids with ADHD.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF5EA",
+  "theme_color": "#F0784A",
+  "icons": [
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
