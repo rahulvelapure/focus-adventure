@@ -11,8 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { Home, Wind, BookOpen, Settings as SettingsIcon, Gamepad2 } from "lucide-react";
+import { Home, BookOpen, Settings as SettingsIcon, Gamepad2, Flame } from "lucide-react";
 import { useSettings } from "@/lib/settings";
+import { registerPwa } from "@/lib/pwa";
 
 function NotFoundComponent() {
   return (
@@ -125,6 +126,10 @@ function RootComponent() {
   // Applies data-theme + .dark on <html>
   useSettings();
 
+  useEffect(() => {
+    registerPwa();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-dvh flex flex-col pb-24">
@@ -141,7 +146,7 @@ function BottomNav() {
   const items = [
     { to: "/", label: "Home", Icon: Home },
     { to: "/games", label: "Games", Icon: Gamepad2 },
-    { to: "/breathe", label: "Calm", Icon: Wind },
+    { to: "/quests", label: "Quests", Icon: Flame },
     { to: "/learn", label: "Learn", Icon: BookOpen },
     { to: "/settings", label: "Settings", Icon: SettingsIcon },
   ] as const;

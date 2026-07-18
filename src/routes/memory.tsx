@@ -3,6 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import { RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
+import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { useDifficulty } from "@/lib/difficulty";
+import { recordPlay } from "@/lib/progress";
 
 export const Route = createFileRoute("/memory")({
   head: () => ({
@@ -34,8 +37,10 @@ function makeDeck(pairs: number): Card[] {
 }
 
 function Memory() {
-  const [pairs, setPairs] = useState(6);
-  const [deck, setDeck] = useState<Card[]>(() => makeDeck(6));
+  const { effective } = useDifficulty("memory");
+  const defaultPairs = effective === "hard" ? 8 : effective === "medium" ? 6 : 4;
+  const [pairs, setPairs] = useState(defaultPairs);
+  const [deck, setDeck] = useState<Card[]>(() => makeDeck(defaultPairs));
   const [picked, setPicked] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const { add } = useStars();
@@ -48,8 +53,10 @@ function Memory() {
       setAwarded(true);
       add(pairs);
       sfx.win();
+      const bestMoves = pairs; // perfect = 1 move per pair
+      recordPlay({ gameId: "memory", accuracy: Math.max(0, Math.min(1, bestMoves / Math.max(1, moves))), correctCount: pairs });
     }
-  }, [won, awarded, add, pairs]);
+  }, [won, awarded, add, pairs, moves]);
 
   useEffect(() => {
     if (picked.length !== 2) return;
@@ -105,6 +112,7 @@ function Memory() {
           <RotateCcw className="size-4" /> New
         </button>
       </div>
+      <DifficultyPicker gameId="memory" />
 
       <div className="mt-4 flex gap-2">
         {[4, 6, 8].map((p) => (

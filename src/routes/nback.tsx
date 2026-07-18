@@ -4,6 +4,9 @@ import { Play, Star, Brain } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { useBest } from "@/lib/scores";
 import { sfx } from "@/lib/feedback";
+import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { useDifficulty } from "@/lib/difficulty";
+import { recordPlay } from "@/lib/progress";
 
 export const Route = createFileRoute("/nback")({
   head: () => ({
@@ -16,7 +19,12 @@ export const Route = createFileRoute("/nback")({
 });
 
 const SHAPES = ["🍎", "🐟", "⭐", "🌈", "🚀", "🐝"];
-const TRIALS = 20;
+
+function paramsFor(level: "easy" | "medium" | "hard") {
+  if (level === "hard") return { trials: 30, n: 2, matchProb: 0.3 };
+  if (level === "medium") return { trials: 25, n: 1, matchProb: 0.35 };
+  return { trials: 15, n: 1, matchProb: 0.4 };
+}
 
 function NBack() {
   const [seq, setSeq] = useState<string[]>([]);
@@ -27,6 +35,8 @@ function NBack() {
   const timer = useRef<number | null>(null);
   const { add } = useStars();
   const { best, submit } = useBest("nback");
+  const { effective } = useDifficulty("nback");
+  const { trials: TRIALS, n: N } = paramsFor(effective);
 
   useEffect(() => () => {
     if (timer.current) window.clearTimeout(timer.current);
@@ -34,8 +44,9 @@ function NBack() {
 
   function build() {
     const s: string[] = [];
+    const { matchProb } = paramsFor(effective);
     for (let k = 0; k < TRIALS; k++) {
-      if (k > 0 && Math.random() < 0.35) s.push(s[k - 1]);
+      if (k >= N && Math.random() < matchProb) s.push(s[k - N]);
       else s.push(SHAPES[Math.floor(Math.random() * SHAPES.length)]);
     }
     return s;
@@ -52,7 +63,7 @@ function NBack() {
 
   function decide(said: boolean) {
     if (!running) return;
-    const isMatch = i > 0 && seq[i] === seq[i - 1];
+    const isMatch = i >= N && seq[i] === seq[i - N];
     const correct = said === isMatch;
     if (correct) {
       setScore((s) => s + 1);
@@ -66,9 +77,11 @@ function NBack() {
     timer.current = window.setTimeout(() => setFeedback(""), 250);
     if (i + 1 >= seq.length) {
       setRunning(false);
-      const reward = score + (correct ? 1 : 0) >= 15 ? 3 : 1;
+      const finalScore = score + (correct ? 1 : 0);
+      const reward = finalScore >= 15 ? 3 : 1;
       add(reward);
-      submit(score + (correct ? 1 : 0));
+      submit(finalScore);
+      recordPlay({ gameId: "nback", accuracy: finalScore / TRIALS, correctCount: finalScore });
       setTimeout(() => sfx.win(), 300);
     } else {
       setI(i + 1);
@@ -81,8 +94,9 @@ function NBack() {
     <div className="mx-auto max-w-xl px-5 pt-8">
       <h1 className="text-2xl font-display">Match Back</h1>
       <p className="mt-1 text-sm text-muted-foreground">
-        Is this shape the same as the one you just saw? Tap Match or Different.
+        Is this the same as the one {N} step{N > 1 ? "s" : ""} ago? Tap Match or Different.
       </p>
+      <DifficultyPicker gameId="nback" />
 
       <div className="mt-4 grid grid-cols-3 gap-2 text-center text-sm font-bold">
         <span className="rounded-xl bg-muted p-2">Trial<br /><span className="text-primary text-lg">{running ? i + 1 : "—"}/{TRIALS}</span></span>

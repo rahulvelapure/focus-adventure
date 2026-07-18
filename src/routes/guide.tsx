@@ -75,6 +75,46 @@ const research = [
     body:
       "Effort-based praise ('you kept going even when it was hard') builds internal motivation more than outcome praise ('you're so smart'). Name the specific skill: 'that was your brain's brake pedal working'.",
   },
+  {
+    title: "Mindfulness-based interventions (MYmind)",
+    body:
+      "Randomized trials of MYmind (an 8-week mindfulness program adapted for children with ADHD and their parents) show reductions in inattention and parent-rated symptoms (van de Weijer-Bergsma et al., 2012; van der Oord et al., 2012). Short daily 'notice-your-breath' practice pairs well with the Calm Bubble.",
+  },
+  {
+    title: "Aerobic and coordination exercise",
+    body:
+      "Cerrillo-Urbina et al. (2015) and Vysniauske et al. (2020) meta-analyses report moderate improvements in attention, executive function, and hyperactivity after regular aerobic exercise (≥30 min, 3–5×/week) and coordinative training (martial arts, dance, ball sports).",
+  },
+  {
+    title: "Omega-3 supplementation (adjunct)",
+    body:
+      "Bloch & Qawasmi (2011) meta-analysis found a small but statistically significant benefit of EPA/DHA supplementation on ADHD symptoms. Effect size is modest; discuss with your pediatrician as an adjunct, not a replacement.",
+  },
+  {
+    title: "Sleep hygiene as an evidence-based lever",
+    body:
+      "Hiscock et al. (2015, BMJ) randomized trial: a brief behavioral sleep intervention improved ADHD symptoms, daily functioning, behavior, and quality of life at 3 and 6 months. Consistent bedtime, dark room, no screens 60 min before bed.",
+  },
+  {
+    title: "Parent behavior training (PBT / PMT)",
+    body:
+      "Programs like Parent-Child Interaction Therapy, Incredible Years, Triple P, and the New Forest Parenting Programme have strong evidence for preschool and school-age ADHD (Daley et al., 2014). Focus: labelled praise, planned ignoring, clear commands, if-then routines.",
+  },
+  {
+    title: "School accommodations that work",
+    body:
+      "Daily Report Cards, movement breaks every 15–20 min, front-row seating, chunked instructions, and visual timers are supported by the MTA follow-up and DuPaul & Stoner's classroom research. Share the child's star totals as an at-home data point.",
+  },
+  {
+    title: "CBT-informed skills for older kids",
+    body:
+      "For ages 9+, cognitive-behavioral coping skills — self-talk ('stop, plan, go'), problem-solving worksheets, and cognitive reframing — improve emotional regulation (Sprich et al., 2016). Practice one skill at a time.",
+  },
+  {
+    title: "Environmental design",
+    body:
+      "Reduce visual clutter on the desk, use noise-cancelling headphones, keep a 'launch pad' for shoes/bag by the door, and post a 3-step morning checklist. Externalising executive function to the environment lowers demand on the child's still-developing prefrontal cortex.",
+  },
 ];
 
 const tips = [

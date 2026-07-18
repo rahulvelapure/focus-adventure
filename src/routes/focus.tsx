@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause, RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx, tone } from "@/lib/feedback";
+import { recordPlay } from "@/lib/progress";
 
 export const Route = createFileRoute("/focus")({
   head: () => ({
@@ -40,6 +41,7 @@ function Focus() {
             done.current = true;
             add(minutes);
             sfx.win();
+            recordPlay({ gameId: "focus", accuracy: 1, minutes });
           }
           return 0;
         }

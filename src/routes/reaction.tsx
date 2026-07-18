@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Star, Zap } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
+import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { useDifficulty } from "@/lib/difficulty";
+import { recordPlay } from "@/lib/progress";
 
 export const Route = createFileRoute("/reaction")({
   head: () => ({
@@ -20,9 +23,11 @@ function Reaction() {
   const [state, setState] = useState<State>("idle");
   const [ms, setMs] = useState<number | null>(null);
   const [best, setBest] = useState<number | null>(null);
+  const [round, setRound] = useState(0);
   const timer = useRef<number | null>(null);
   const startedAt = useRef(0);
   const { add } = useStars();
+  const { effective, endless } = useDifficulty("reaction");
 
   useEffect(() => {
     const raw = window.localStorage.getItem("foxfocus.reaction.best");
@@ -35,7 +40,10 @@ function Reaction() {
   function start() {
     setMs(null);
     setState("waiting");
-    const wait = 1000 + Math.random() * 2500;
+    // Higher levels shorten the pre-cue window (harder to anticipate).
+    const base = effective === "hard" ? 600 : effective === "medium" ? 900 : 1200;
+    const jitter = effective === "hard" ? 1200 : effective === "medium" ? 1800 : 2500;
+    const wait = base + Math.random() * jitter;
     timer.current = window.setTimeout(() => {
       setState("go");
       startedAt.current = performance.now();
@@ -56,11 +64,16 @@ function Reaction() {
       sfx.good();
       const reward = t < 300 ? 3 : t < 500 ? 2 : 1;
       add(reward);
+      recordPlay({ gameId: "reaction", accuracy: t < 400 ? 1 : t < 600 ? 0.7 : 0.4, correctCount: 1 });
+      setRound((r) => r + 1);
       if (best == null || t < best) {
         setBest(t);
         try {
           window.localStorage.setItem("foxfocus.reaction.best", String(t));
         } catch {}
+      }
+      if (endless) {
+        window.setTimeout(() => start(), 900);
       }
     } else if (state === "idle" || state === "early" || state === "done") {
       start();
@@ -92,6 +105,7 @@ function Reaction() {
       <p className="mt-1 text-sm text-muted-foreground">
         Wait for green. Tap as fast as you can. Don't jump the gun.
       </p>
+      <DifficultyPicker gameId="reaction" endlessSupported />
 
       <div className="mt-4 flex justify-between text-sm font-bold">
         <span className="inline-flex items-center gap-1">
@@ -99,7 +113,9 @@ function Reaction() {
           <span className="tabular-nums">{best ?? "—"}</span> ms
         </span>
         {ms != null && state === "done" ? (
-          <span>Last: <span className="tabular-nums text-primary">{ms}</span> ms</span>
+          <span>
+            Last: <span className="tabular-nums text-primary">{ms}</span> ms · Round {round}
+          </span>
         ) : null}
       </div>
 
