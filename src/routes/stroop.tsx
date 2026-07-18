@@ -111,6 +111,8 @@ function Stroop() {
     recordPlay({ gameId: "stroop", accuracy: acc, correctCount: s });
   }
 
+  useEndlessAutoRestart("stroop", !running && (score + misses) > 0, () => start());
+
   const p = paramsFor(effective);
 
   return (
