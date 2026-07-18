@@ -76,6 +76,8 @@ function Sort() {
     }
   }
 
+  useEndlessAutoRestart("sort", !running && lastMs != null, () => start());
+
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">
       <h1 className="text-2xl font-display">Number Line</h1>
