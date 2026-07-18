@@ -102,6 +102,8 @@ function Rhythm() {
     setMisses((m) => m + Math.max(0, missed - m));
   }
 
+  useEndlessAutoRestart("rhythm", !running && (hits + misses) > 0, () => start());
+
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">
       <h1 className="text-2xl font-display">Steady Beat</h1>
