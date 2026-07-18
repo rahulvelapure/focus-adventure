@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx, tone } from "@/lib/feedback";
+import { CbtCoach } from "@/components/CbtCoach";
 
 export const Route = createFileRoute("/breathe")({
   head: () => ({
@@ -76,6 +77,7 @@ function Breathe() {
       <p className="mt-1 text-sm text-muted-foreground">
         Watch the bubble. Breathe with it. Three rounds = a star.
       </p>
+      <CbtCoach gameId="breathe" />
 
       <div className="mt-8 flex flex-col items-center">
         <div

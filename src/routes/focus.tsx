@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause, RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx, tone } from "@/lib/feedback";
+import { CbtCoach } from "@/components/CbtCoach";
 import { recordPlay } from "@/lib/progress";
 
 export const Route = createFileRoute("/focus")({
@@ -68,6 +69,7 @@ function Focus() {
       <p className="mt-1 text-sm text-muted-foreground">
         Pick a length. Start. When Rex's ring fills up, you earn stars.
       </p>
+      <CbtCoach gameId="focus" />
 
       <div className="mt-6 flex justify-center gap-2">
         {CHOICES.map((m) => (
