@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Volume2, VolumeX, Vibrate, Star, RotateCcw } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Volume2, VolumeX, Vibrate, Star, RotateCcw, BookOpen, ChevronRight } from "lucide-react";
 import { useSettings, THEMES, type Theme } from "@/lib/settings";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
@@ -110,6 +110,27 @@ function Settings() {
             <RotateCcw className="size-4" /> Reset
           </button>
         </div>
+      </section>
+
+      <section className="mt-8 mb-4">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+          For grown-ups
+        </h2>
+        <Link
+          to="/guide"
+          className="mt-3 flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+        >
+          <span className="grid size-11 place-items-center rounded-full bg-primary text-primary-foreground">
+            <BookOpen className="size-5" />
+          </span>
+          <span className="flex-1">
+            <span className="block font-display text-base">Parent guide</span>
+            <span className="block text-xs text-muted-foreground">
+              Research, methodology, daily tips
+            </span>
+          </span>
+          <ChevronRight className="size-5 text-muted-foreground" />
+        </Link>
       </section>
     </div>
   );
