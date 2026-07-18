@@ -19,6 +19,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RhythmRouteImport } from './routes/rhythm'
 import { Route as ReactionRouteImport } from './routes/reaction'
 import { Route as QuestsRouteImport } from './routes/quests'
+import { Route as PlandoRouteImport } from './routes/plando'
 import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as NbackRouteImport } from './routes/nback'
 import { Route as MemoryRouteImport } from './routes/memory'
@@ -79,6 +80,11 @@ const ReactionRoute = ReactionRouteImport.update({
 const QuestsRoute = QuestsRouteImport.update({
   id: '/quests',
   path: '/quests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlandoRoute = PlandoRouteImport.update({
+  id: '/plando',
+  path: '/plando',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OddoneRoute = OddoneRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
+  '/plando': typeof PlandoRoute
   '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
   '/rhythm': typeof RhythmRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
+  '/plando': typeof PlandoRoute
   '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
   '/rhythm': typeof RhythmRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
+  '/plando': typeof PlandoRoute
   '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
   '/rhythm': typeof RhythmRoute
@@ -221,6 +230,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/nback'
     | '/oddone'
+    | '/plando'
     | '/quests'
     | '/reaction'
     | '/rhythm'
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/nback'
     | '/oddone'
+    | '/plando'
     | '/quests'
     | '/reaction'
     | '/rhythm'
@@ -267,6 +278,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/nback'
     | '/oddone'
+    | '/plando'
     | '/quests'
     | '/reaction'
     | '/rhythm'
@@ -291,6 +303,7 @@ export interface RootRouteChildren {
   MemoryRoute: typeof MemoryRoute
   NbackRoute: typeof NbackRoute
   OddoneRoute: typeof OddoneRoute
+  PlandoRoute: typeof PlandoRoute
   QuestsRoute: typeof QuestsRoute
   ReactionRoute: typeof ReactionRoute
   RhythmRoute: typeof RhythmRoute
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/quests'
       fullPath: '/quests'
       preLoaderRoute: typeof QuestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plando': {
+      id: '/plando'
+      path: '/plando'
+      fullPath: '/plando'
+      preLoaderRoute: typeof PlandoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/oddone': {
@@ -467,6 +487,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoryRoute: MemoryRoute,
   NbackRoute: NbackRoute,
   OddoneRoute: OddoneRoute,
+  PlandoRoute: PlandoRoute,
   QuestsRoute: QuestsRoute,
   ReactionRoute: ReactionRoute,
   RhythmRoute: RhythmRoute,
