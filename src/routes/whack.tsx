@@ -132,6 +132,8 @@ function Whack() {
     }
   }
 
+  useEndlessAutoRestart("whack", !running && (score + misses) > 0, () => start());
+
   const secs = (left / 1000).toFixed(1);
 
   return (
