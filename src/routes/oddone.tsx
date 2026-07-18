@@ -98,6 +98,8 @@ function OddOne() {
     }
   }
 
+  useEndlessAutoRestart("oddone", state === "done", () => start());
+
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">
       <h1 className="text-2xl font-display">Odd One Out</h1>
