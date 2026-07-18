@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Play, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
+import { useEndlessAutoRestart } from "@/lib/endless";
 import { sfx } from "@/lib/feedback";
 
 export const Route = createFileRoute("/oddone")({
