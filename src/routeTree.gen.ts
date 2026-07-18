@@ -16,6 +16,7 @@ import { Route as SortRouteImport } from './routes/sort'
 import { Route as SimonRouteImport } from './routes/simon'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReactionRouteImport } from './routes/reaction'
+import { Route as QuestsRouteImport } from './routes/quests'
 import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as NbackRouteImport } from './routes/nback'
 import { Route as MemoryRouteImport } from './routes/memory'
@@ -59,6 +60,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const ReactionRoute = ReactionRouteImport.update({
   id: '/reaction',
   path: '/reaction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuestsRoute = QuestsRouteImport.update({
+  id: '/quests',
+  path: '/quests',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OddoneRoute = OddoneRouteImport.update({
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
+  '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
+  '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
@@ -154,6 +162,7 @@ export interface FileRoutesById {
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
+  '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
@@ -174,6 +183,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/nback'
     | '/oddone'
+    | '/quests'
     | '/reaction'
     | '/settings'
     | '/simon'
@@ -192,6 +202,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/nback'
     | '/oddone'
+    | '/quests'
     | '/reaction'
     | '/settings'
     | '/simon'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/memory'
     | '/nback'
     | '/oddone'
+    | '/quests'
     | '/reaction'
     | '/settings'
     | '/simon'
@@ -229,6 +241,7 @@ export interface RootRouteChildren {
   MemoryRoute: typeof MemoryRoute
   NbackRoute: typeof NbackRoute
   OddoneRoute: typeof OddoneRoute
+  QuestsRoute: typeof QuestsRoute
   ReactionRoute: typeof ReactionRoute
   SettingsRoute: typeof SettingsRoute
   SimonRoute: typeof SimonRoute
@@ -287,6 +300,13 @@ declare module '@tanstack/react-router' {
       path: '/reaction'
       fullPath: '/reaction'
       preLoaderRoute: typeof ReactionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quests': {
+      id: '/quests'
+      path: '/quests'
+      fullPath: '/quests'
+      preLoaderRoute: typeof QuestsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/oddone': {
@@ -365,6 +385,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoryRoute: MemoryRoute,
   NbackRoute: NbackRoute,
   OddoneRoute: OddoneRoute,
+  QuestsRoute: QuestsRoute,
   ReactionRoute: ReactionRoute,
   SettingsRoute: SettingsRoute,
   SimonRoute: SimonRoute,
