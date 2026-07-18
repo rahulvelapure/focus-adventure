@@ -4,6 +4,9 @@ import { Play, Star, Target } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { useBest } from "@/lib/scores";
 import { sfx } from "@/lib/feedback";
+import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { useDifficulty } from "@/lib/difficulty";
+import { recordPlay } from "@/lib/progress";
 
 export const Route = createFileRoute("/whack")({
   head: () => ({
@@ -19,6 +22,12 @@ type Cell = "empty" | "go" | "nogo";
 const GRID = 9;
 const ROUND_MS = 30_000;
 
+function paramsFor(level: "easy" | "medium" | "hard") {
+  if (level === "hard") return { spawnMs: 500, nogoProb: 0.45 };
+  if (level === "medium") return { spawnMs: 600, nogoProb: 0.35 };
+  return { spawnMs: 800, nogoProb: 0.2 };
+}
+
 function Whack() {
   const [cells, setCells] = useState<Cell[]>(() => Array(GRID).fill("empty"));
   const [score, setScore] = useState(0);
@@ -29,6 +38,7 @@ function Whack() {
   const tick = useRef<number | null>(null);
   const { add } = useStars();
   const { best, submit } = useBest("whack");
+  const { effective, endless } = useDifficulty("whack");
 
   useEffect(() => {
     return () => {
@@ -46,6 +56,7 @@ function Whack() {
     setRunning(true);
     if (spawn.current) window.clearInterval(spawn.current);
     if (tick.current) window.clearInterval(tick.current);
+    const { spawnMs, nogoProb } = paramsFor(effective);
     spawn.current = window.setInterval(() => {
       setCells((prev) => {
         const next = [...prev];
@@ -61,11 +72,12 @@ function Whack() {
           .filter((i) => i >= 0);
         if (empties.length) {
           const idx = empties[Math.floor(Math.random() * empties.length)];
-          next[idx] = Math.random() < 0.75 ? "go" : "nogo";
+          next[idx] = Math.random() < 1 - nogoProb ? "go" : "nogo";
         }
         return next;
       });
-    }, 700);
+    }, spawnMs);
+    if (endless) return; // no timer in endless mode
     tick.current = window.setInterval(() => {
       setLeft((l) => {
         const n = l - 100;
@@ -88,6 +100,9 @@ function Whack() {
       add(reward);
       submit(s);
       sfx.win();
+      const total = s + misses;
+      const acc = total > 0 ? s / total : 0.5;
+      recordPlay({ gameId: "whack", accuracy: acc, correctCount: s });
       return s;
     });
   }
@@ -123,6 +138,7 @@ function Whack() {
       <p className="mt-1 text-sm text-muted-foreground">
         Tap the orange foxes 🦊. Skip the sleepy purple ones 😴.
       </p>
+      <DifficultyPicker gameId="whack" endlessSupported />
 
       <div className="mt-4 grid grid-cols-3 gap-2 text-center text-sm font-bold">
         <span className="rounded-xl bg-muted p-2">Score<br /><span className="text-primary text-lg">{score}</span></span>
@@ -155,6 +171,14 @@ function Whack() {
         >
           <Play className="size-5" /> {running ? "Restart" : "Start round"}
         </button>
+        {running && endless ? (
+          <button
+            onClick={finish}
+            className="ml-2 inline-flex items-center gap-2 rounded-full bg-muted px-4 py-3 text-sm font-bold text-muted-foreground min-h-11"
+          >
+            Stop
+          </button>
+        ) : null}
       </div>
 
       {!running && score > 0 && (
