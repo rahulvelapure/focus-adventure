@@ -9,6 +9,7 @@ import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
 import { signal as frust } from "@/lib/frustration";
 import { useBest } from "@/lib/scores";
+import { recordMath } from "@/lib/mastery";
 
 export const Route = createFileRoute("/math")({
   head: () => ({
@@ -76,15 +77,19 @@ function QuickMath() {
   const [streak, setStreak] = useState(0);
   const { add } = useStars();
   const { best, submit } = useBest("math", "max");
+  const [askedAt, setAskedAt] = useState<number>(() => Date.now());
+  const [rts, setRts] = useState<number[]>([]);
 
   useEffect(() => {
     setQ(buildQuestion(effective));
     setPicked(null);
+    setAskedAt(Date.now());
   }, [effective]);
 
   const next = useCallback(() => {
     setPicked(null);
     setQ(buildQuestion(effective));
+    setAskedAt(Date.now());
   }, [effective]);
 
   function pick(v: number) {
@@ -95,6 +100,7 @@ function QuickMath() {
       sfx.good();
       vibe(15);
       frust("math", "hit");
+      setRts((r) => [...r.slice(-19), Date.now() - askedAt]);
       const s = streak + 1;
       setStreak(s);
       setCorrect((c) => {
@@ -118,8 +124,19 @@ function QuickMath() {
   useEffect(() => {
     if (total > 0 && total % 8 === 0) {
       recordPlay({ gameId: "math", accuracy: correct / total, correctCount: correct });
+      // Snapshot a mastery session record.
+      const sorted = [...rts].sort((a, b) => a - b);
+      const medRt = sorted.length ? sorted[Math.floor(sorted.length / 2)] : 0;
+      recordMath({
+        at: Date.now(),
+        range: rangeFor(effective).max,
+        correct,
+        total,
+        accuracy: correct / total,
+        rtMs: medRt,
+      });
     }
-  }, [total, correct]);
+  }, [total, correct, rts, effective]);
 
   const acc = useMemo(() => (total ? Math.round((correct / total) * 100) : 0), [correct, total]);
 
