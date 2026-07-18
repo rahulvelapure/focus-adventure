@@ -9,8 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StopgoRouteImport } from './routes/stopgo'
+import { Route as MemoryRouteImport } from './routes/memory'
+import { Route as LearnRouteImport } from './routes/learn'
+import { Route as FocusRouteImport } from './routes/focus'
+import { Route as BreatheRouteImport } from './routes/breathe'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StopgoRoute = StopgoRouteImport.update({
+  id: '/stopgo',
+  path: '/stopgo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemoryRoute = MemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnRoute = LearnRouteImport.update({
+  id: '/learn',
+  path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FocusRoute = FocusRouteImport.update({
+  id: '/focus',
+  path: '/focus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BreatheRoute = BreatheRouteImport.update({
+  id: '/breathe',
+  path: '/breathe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +49,90 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/breathe': typeof BreatheRoute
+  '/focus': typeof FocusRoute
+  '/learn': typeof LearnRoute
+  '/memory': typeof MemoryRoute
+  '/stopgo': typeof StopgoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/breathe': typeof BreatheRoute
+  '/focus': typeof FocusRoute
+  '/learn': typeof LearnRoute
+  '/memory': typeof MemoryRoute
+  '/stopgo': typeof StopgoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/breathe': typeof BreatheRoute
+  '/focus': typeof FocusRoute
+  '/learn': typeof LearnRoute
+  '/memory': typeof MemoryRoute
+  '/stopgo': typeof StopgoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/breathe' | '/focus' | '/learn' | '/memory' | '/stopgo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/breathe' | '/focus' | '/learn' | '/memory' | '/stopgo'
+  id:
+    | '__root__'
+    | '/'
+    | '/breathe'
+    | '/focus'
+    | '/learn'
+    | '/memory'
+    | '/stopgo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BreatheRoute: typeof BreatheRoute
+  FocusRoute: typeof FocusRoute
+  LearnRoute: typeof LearnRoute
+  MemoryRoute: typeof MemoryRoute
+  StopgoRoute: typeof StopgoRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/stopgo': {
+      id: '/stopgo'
+      path: '/stopgo'
+      fullPath: '/stopgo'
+      preLoaderRoute: typeof StopgoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/memory': {
+      id: '/memory'
+      path: '/memory'
+      fullPath: '/memory'
+      preLoaderRoute: typeof MemoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn': {
+      id: '/learn'
+      path: '/learn'
+      fullPath: '/learn'
+      preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/focus': {
+      id: '/focus'
+      path: '/focus'
+      fullPath: '/focus'
+      preLoaderRoute: typeof FocusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/breathe': {
+      id: '/breathe'
+      path: '/breathe'
+      fullPath: '/breathe'
+      preLoaderRoute: typeof BreatheRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +145,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BreatheRoute: BreatheRoute,
+  FocusRoute: FocusRoute,
+  LearnRoute: LearnRoute,
+  MemoryRoute: MemoryRoute,
+  StopgoRoute: StopgoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -14,11 +14,12 @@ export const Route = createFileRoute("/breathe")({
 });
 
 // 4-7-8 style, softened for kids: inhale 4, hold 4, exhale 6
-const PHASES = [
+type Phase = { name: string; secs: number; scale: number };
+const PHASES: Phase[] = [
   { name: "Breathe in", secs: 4, scale: 1 },
   { name: "Hold", secs: 4, scale: 1 },
   { name: "Breathe out", secs: 6, scale: 0.55 },
-] as const;
+];
 
 function Breathe() {
   const [running, setRunning] = useState(false);
