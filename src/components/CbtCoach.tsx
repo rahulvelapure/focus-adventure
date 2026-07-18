@@ -24,15 +24,20 @@ export function CbtCoach({ gameId, title = "Brain coach" }: Props) {
   const { settings } = useSettings();
   const frustration = useFrustrationEvent();
 
-  const [open, setOpen] = useState(false);
+  // Coaching intensity: "frequent" starts expanded, "minimal" never auto-opens
+  const intensity = settings.coachIntensity;
+  const [open, setOpen] = useState(intensity === "frequent" && !settings.focusMode);
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [wrong, setWrong] = useState(false);
-  // Auto-surface the coach only when the child struggles in this game
-  // during Focus Mode.
+  // Auto-surface the coach when the child struggles. Behavior is scaled
+  // by coachIntensity: minimal = never auto, balanced = only in Focus
+  // Mode (previous behavior), frequent = always auto-open on frustration.
   useEffect(() => {
-    if (settings.focusMode && frustration?.gameId === gameId) setOpen(true);
-  }, [frustration, settings.focusMode, gameId]);
+    if (frustration?.gameId !== gameId) return;
+    if (intensity === "minimal") return;
+    if (intensity === "frequent" || settings.focusMode) setOpen(true);
+  }, [frustration, settings.focusMode, gameId, intensity]);
 
   if (!lesson) return null;
   // Focus Mode: hide the whole card unless the child (or frustration

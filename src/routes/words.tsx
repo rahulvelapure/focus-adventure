@@ -9,6 +9,7 @@ import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
 import { signal as frust } from "@/lib/frustration";
 import { useBest } from "@/lib/scores";
+import { recordWords } from "@/lib/mastery";
 
 export const Route = createFileRoute("/words")({
   head: () => ({
@@ -101,8 +102,16 @@ function Words() {
   useEffect(() => {
     if (total > 0 && total % 8 === 0) {
       recordPlay({ gameId: "words", accuracy: correct / total, correctCount: correct });
+      const poolLevel = effective === "hard" ? 3 : effective === "medium" ? 2 : 1;
+      recordWords({
+        at: Date.now(),
+        poolLevel,
+        correct,
+        total,
+        accuracy: correct / total,
+      });
     }
-  }, [total, correct]);
+  }, [total, correct, effective]);
 
   const acc = useMemo(() => (total ? Math.round((correct / total) * 100) : 0), [correct, total]);
 

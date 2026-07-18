@@ -382,6 +382,45 @@
   }
 }
 
+/* ---------- Accessibility toggles ---------- */
+/* Dyslexia-friendly typography via Lexend (evidence-based for reading
+   speed in children). Applied to body + display headings when the
+   data-font attribute is set. */
+html[data-font="dyslexic"] body,
+html[data-font="dyslexic"] h1,
+html[data-font="dyslexic"] h2,
+html[data-font="dyslexic"] h3,
+html[data-font="dyslexic"] h4,
+html[data-font="dyslexic"] .font-display {
+  font-family: "Lexend", "Nunito", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  word-spacing: 0.08em;
+}
+
+/* Text scaling — bumps the root font-size so rem-based UI grows together. */
+html[data-text-scale="sm"] { font-size: 15px; }
+html[data-text-scale="md"] { font-size: 16px; }
+html[data-text-scale="lg"] { font-size: 18px; }
+html[data-text-scale="xl"] { font-size: 20px; }
+
+/* High-contrast mode — deepens ink & borders for readability. */
+html[data-contrast="high"] {
+  --foreground: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.28 0.02 250);
+  --border: oklch(0.35 0.04 250);
+  --card: oklch(1 0 0);
+  --background: oklch(1 0 0);
+  --primary: oklch(0.48 0.22 30);
+  --primary-foreground: oklch(1 0 0);
+}
+html[data-contrast="high"].dark {
+  --foreground: oklch(0.99 0 0);
+  --muted-foreground: oklch(0.9 0.02 250);
+  --border: oklch(0.85 0.04 250);
+  --background: oklch(0.08 0.02 250);
+  --card: oklch(0.14 0.02 250);
+}
+
 @utility btn-pop {
   box-shadow: var(--shadow-pop);
   transition: transform 120ms ease, box-shadow 120ms ease;

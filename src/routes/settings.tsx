@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Volume2, VolumeX, Vibrate, Star, RotateCcw, BookOpen, ChevronRight, Maximize2 } from "lucide-react";
+import { Volume2, VolumeX, Vibrate, Star, RotateCcw, BookOpen, ChevronRight, Maximize2, TrendingUp, Type, Eye, Brain, Gauge } from "lucide-react";
 import { useSettings, THEMES, tryEnterFullscreen, exitFullscreen, type Theme } from "@/lib/settings";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
@@ -103,10 +103,90 @@ function Settings() {
         />
       </section>
 
+      <section className="mt-8 space-y-3">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+          Accessibility
+        </h2>
+        <Toggle
+          label="Dyslexia-friendly font"
+          desc="Switch to the Lexend typeface with roomier letter spacing"
+          on={settings.dyslexiaFont}
+          onToggle={() => { update({ dyslexiaFont: !settings.dyslexiaFont }); sfx.tap(); }}
+          IconOn={Type}
+          IconOff={Type}
+        />
+        <Toggle
+          label="High-contrast theme"
+          desc="Darker text and borders for easier reading"
+          on={settings.highContrast}
+          onToggle={() => { update({ highContrast: !settings.highContrast }); sfx.tap(); }}
+          IconOn={Eye}
+          IconOff={Eye}
+        />
+        <Segmented
+          label="Text size"
+          desc="Scales all text and controls"
+          Icon={Type}
+          value={settings.textScale}
+          options={[
+            { id: "sm", label: "Small" },
+            { id: "md", label: "Regular" },
+            { id: "lg", label: "Large" },
+            { id: "xl", label: "X-Large" },
+          ]}
+          onChange={(v) => { update({ textScale: v as typeof settings.textScale }); sfx.tap(); }}
+        />
+      </section>
+
+      <section className="mt-8 space-y-3">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+          Brain coach
+        </h2>
+        <Segmented
+          label="Frustration sensitivity"
+          desc="How quickly a micro-break is offered when a round gets hard"
+          Icon={Gauge}
+          value={settings.frustrationSensitivity}
+          options={[
+            { id: "low", label: "Calm" },
+            { id: "medium", label: "Balanced" },
+            { id: "high", label: "Alert" },
+          ]}
+          onChange={(v) => { update({ frustrationSensitivity: v as typeof settings.frustrationSensitivity }); sfx.tap(); }}
+        />
+        <Segmented
+          label="Coaching intensity"
+          desc="Minimal keeps the coach hidden. Frequent pops it open on struggle."
+          Icon={Brain}
+          value={settings.coachIntensity}
+          options={[
+            { id: "minimal", label: "Minimal" },
+            { id: "balanced", label: "Balanced" },
+            { id: "frequent", label: "Frequent" },
+          ]}
+          onChange={(v) => { update({ coachIntensity: v as typeof settings.coachIntensity }); sfx.tap(); }}
+        />
+      </section>
+
       <section className="mt-8">
         <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
           Progress
         </h2>
+        <Link
+          to="/progress"
+          className="mt-3 flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+        >
+          <span className="grid size-11 place-items-center rounded-full bg-primary text-primary-foreground">
+            <TrendingUp className="size-5" />
+          </span>
+          <span className="flex-1">
+            <span className="block font-display text-base">Mastery dashboard</span>
+            <span className="block text-xs text-muted-foreground">
+              Math & Words growth over time
+            </span>
+          </span>
+          <ChevronRight className="size-5 text-muted-foreground" />
+        </Link>
         <div className="mt-3 flex items-center justify-between rounded-2xl border border-border bg-card p-4">
           <div className="flex items-center gap-2">
             <Star className="size-5 fill-accent text-accent" aria-hidden />
@@ -195,5 +275,53 @@ function Toggle({
         />
       </span>
     </button>
+  );
+}
+
+function Segmented({
+  label,
+  desc,
+  Icon,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  desc: string;
+  Icon: React.ComponentType<{ className?: string }>;
+  value: string;
+  options: { id: string; label: string }[];
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-card p-4">
+      <div className="flex items-center gap-3">
+        <span className="grid size-11 place-items-center rounded-full bg-muted text-muted-foreground">
+          <Icon className="size-5" />
+        </span>
+        <div className="flex-1">
+          <div className="font-display text-base">{label}</div>
+          <div className="text-xs text-muted-foreground">{desc}</div>
+        </div>
+      </div>
+      <div role="radiogroup" aria-label={label} className="mt-3 grid gap-1.5" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0,1fr))` }}>
+        {options.map((o) => {
+          const active = value === o.id;
+          return (
+            <button
+              key={o.id}
+              role="radio"
+              aria-checked={active}
+              onClick={() => onChange(o.id)}
+              className={`rounded-xl px-2 py-2 text-xs font-bold min-h-11 ${
+                active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }

@@ -5,6 +5,7 @@
 // that the root <FrustrationCoach /> renders as a calming micro-break.
 
 import { useEffect, useState } from "react";
+import { getFrustrationSensitivity } from "./settings";
 
 export type FrustrationKind =
   | "miss"       // wrong answer / no-go slip
@@ -87,7 +88,16 @@ export function signal(gameId: string, kind: FrustrationKind) {
   if (kind === "ragetap" || (now - s.lastTapAt < 200 && kind === "miss")) s.ragetaps += 1;
   s.lastTapAt = now;
 
-  if (s.misses >= 4 || s.ragetaps >= 3 || s.quits >= 2 || s.timeouts >= 3) {
+  // Sensitivity multiplier — higher sensitivity fires sooner.
+  const sens = getFrustrationSensitivity();
+  const mult = sens === "high" ? 0.6 : sens === "low" ? 1.6 : 1;
+  const t = (n: number) => Math.max(2, Math.round(n * mult));
+  if (
+    s.misses >= t(4) ||
+    s.ragetaps >= t(3) ||
+    s.quits >= t(2) ||
+    s.timeouts >= t(3)
+  ) {
     fire(gameId);
   }
 }
