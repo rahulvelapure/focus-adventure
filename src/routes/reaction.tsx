@@ -4,6 +4,7 @@ import { Play, Star, Zap } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
 import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
 
@@ -106,6 +107,7 @@ function Reaction() {
         Wait for green. Tap as fast as you can. Don't jump the gun.
       </p>
       <DifficultyPicker gameId="reaction" endlessSupported />
+      <CbtCoach gameId="reaction" />
 
       <div className="mt-4 flex justify-between text-sm font-bold">
         <span className="inline-flex items-center gap-1">

@@ -4,6 +4,7 @@ import { RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
 import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
 
@@ -113,6 +114,7 @@ function Memory() {
         </button>
       </div>
       <DifficultyPicker gameId="memory" />
+      <CbtCoach gameId="memory" />
 
       <div className="mt-4 flex gap-2">
         {[4, 6, 8].map((p) => (

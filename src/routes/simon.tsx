@@ -4,6 +4,7 @@ import { Play, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx, tone } from "@/lib/feedback";
 import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
 
@@ -108,6 +109,7 @@ function Simon() {
         Watch the pattern. Tap it back. Round: <b className="text-foreground">{seq.length}</b>
       </p>
       <DifficultyPicker gameId="simon" />
+      <CbtCoach gameId="simon" />
 
       <div className="mt-6 grid grid-cols-2 gap-3">
         {PADS.map((p, i) => (

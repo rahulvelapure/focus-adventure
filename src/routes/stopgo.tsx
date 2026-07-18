@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Play, RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
+import { CbtCoach } from "@/components/CbtCoach";
 
 export const Route = createFileRoute("/stopgo")({
   head: () => ({
@@ -114,6 +115,7 @@ function StopGo() {
       <p className="mt-1 text-sm text-muted-foreground">
         Tap the circle when it is <b className="text-foreground">green</b>. Freeze when it is <b className="text-foreground">red</b>.
       </p>
+      <CbtCoach gameId="stopgo" />
 
       <div className="mt-4 flex justify-between text-sm font-bold">
         <span>Score: <span className="tabular-nums text-primary">{score}</span></span>
