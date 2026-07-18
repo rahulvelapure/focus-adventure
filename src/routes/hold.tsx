@@ -112,6 +112,8 @@ function Hold() {
   const progress = target > 0 ? Math.min(1, elapsed / target) : 0;
   const inWindow = elapsed >= target - p.tol && elapsed <= target + p.tol;
 
+  useEndlessAutoRestart("hold", !running && (score + misses) > 0, () => start());
+
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">
       <h1 className="text-2xl font-display">Hold Steady</h1>
