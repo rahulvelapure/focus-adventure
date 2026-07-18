@@ -368,6 +368,72 @@ export const CBT_LESSONS: LessonMap = {
     medium: planning({ skill: "Scan in a pattern" }),
     hard: selfCompassion(),
   },
+  stroop: {
+    easy: stopThinkGo({
+      skill: "Pause the reader",
+      why: "Your brain reads before you notice — a tiny pause lets you pick the color instead.",
+      lesson: [
+        "See the word, but don't obey it.",
+        "Whisper the INK color under your breath.",
+        "Then tap.",
+      ],
+    }),
+    medium: restructure({
+      skill: "Swap the auto-thought",
+      why: "Reading is automatic. Coach yourself: 'color, not word.'",
+    }),
+    hard: restructure({
+      why: "Fast trials tempt slips — a coach phrase resets you every time.",
+    }),
+  },
+  flanker: {
+    easy: focusMuscle({
+      skill: "Zoom to the middle",
+      why: "Your eyes want to widen — pull them to one spot instead.",
+      lesson: [
+        "Look ONLY at the middle arrow.",
+        "Blur the others like background.",
+        "Then tap the direction.",
+      ],
+    }),
+    medium: focusMuscle({ skill: "Zoom to the middle" }),
+    hard: stopThinkGo({
+      skill: "Zoom · Check · Tap",
+      why: "More flankers means more noise — pause a half second to be sure.",
+    }),
+  },
+  rhythm: {
+    easy: focusMuscle({
+      skill: "Ride the beat",
+      why: "Steady rhythms calm the ADHD engine — your body learns to wait its turn.",
+      lesson: [
+        "Hear the beat before you tap.",
+        "Nod along with your head.",
+        "Tap on — not before — the pulse.",
+      ],
+    }),
+    medium: focusMuscle({ skill: "Ride the beat" }),
+    hard: selfCompassion({
+      skill: "Reset on a miss",
+      why: "One off-beat tap doesn't ruin the song — jump back on the next one.",
+    }),
+  },
+  hold: {
+    easy: stopThinkGo({
+      skill: "Wait for the star",
+      why: "The wait is the workout — every extra second is a rep for your brake muscle.",
+      lesson: [
+        "Count in your head: one-Mississippi…",
+        "Watch the ring, not the clock.",
+        "Release only when it turns green.",
+      ],
+    }),
+    medium: stopThinkGo({ skill: "Wait for the star" }),
+    hard: selfCompassion({
+      skill: "Kind coach on a slip",
+      why: "Long waits are hard — celebrate the try, not just the perfect.",
+    }),
+  },
 };
 
 const DONE_KEY = (gameId: string, level: CbtLevel) =>

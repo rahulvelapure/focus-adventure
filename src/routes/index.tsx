@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen, Flame } from "lucide-react";
+import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen, Flame, MoveHorizontal, Music, Hourglass } from "lucide-react";
 import mascot from "@/assets/mascot.png";
 import { useStars } from "@/lib/stars";
 import { useQuests } from "@/lib/quests";
@@ -86,6 +86,34 @@ const games = [
     desc: "Scan and tap.",
     Icon: Search,
     grad: "linear-gradient(135deg, oklch(0.75 0.15 60), oklch(0.72 0.18 25))",
+  },
+  {
+    to: "/stroop" as const,
+    title: "Color Words",
+    desc: "Ink, not word!",
+    Icon: Palette,
+    grad: "linear-gradient(135deg, oklch(0.68 0.2 320), oklch(0.72 0.18 20))",
+  },
+  {
+    to: "/flanker" as const,
+    title: "Middle Arrow",
+    desc: "Ignore the rest.",
+    Icon: MoveHorizontal,
+    grad: "linear-gradient(135deg, oklch(0.68 0.16 210), oklch(0.72 0.18 170))",
+  },
+  {
+    to: "/rhythm" as const,
+    title: "Steady Beat",
+    desc: "Tap the pulse.",
+    Icon: Music,
+    grad: "linear-gradient(135deg, oklch(0.7 0.19 340), oklch(0.78 0.16 40))",
+  },
+  {
+    to: "/hold" as const,
+    title: "Hold Steady",
+    desc: "Wait for green.",
+    Icon: Hourglass,
+    grad: "linear-gradient(135deg, oklch(0.7 0.16 130), oklch(0.68 0.19 190))",
   },
 ];
 
