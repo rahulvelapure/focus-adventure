@@ -8,6 +8,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/nback")({
   head: () => ({
@@ -90,6 +91,7 @@ function NBack() {
   }
 
   const current = seq[i];
+  useEndlessAutoRestart("nback", !running && seq.length > 0, () => start());
 
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">
