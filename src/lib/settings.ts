@@ -30,10 +30,11 @@ type Settings = {
   sound: boolean;
   haptics: boolean;
   name: string;
+  focusMode: boolean;
 };
 
 const KEY = "foxfocus.settings.v1";
-const DEFAULT: Settings = { theme: "sunrise", sound: true, haptics: true, name: "" };
+const DEFAULT: Settings = { theme: "sunrise", sound: true, haptics: true, name: "", focusMode: false };
 
 function read(): Settings {
   if (typeof window === "undefined") return DEFAULT;
@@ -95,4 +96,34 @@ export function isSoundOn() {
 }
 export function isHapticsOn() {
   return read().haptics;
+}
+export function isFocusModeOn() {
+  return read().focusMode;
+}
+
+/** Best-effort request for browser fullscreen. Silently no-ops if blocked. */
+export async function tryEnterFullscreen() {
+  if (typeof document === "undefined") return;
+  const el = document.documentElement as HTMLElement & {
+    webkitRequestFullscreen?: () => Promise<void>;
+  };
+  try {
+    if (!document.fullscreenElement) {
+      if (el.requestFullscreen) await el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+    }
+  } catch {
+    /* ignore — browser may block outside a user gesture */
+  }
+}
+
+export async function exitFullscreen() {
+  if (typeof document === "undefined") return;
+  const d = document as Document & { webkitExitFullscreen?: () => Promise<void> };
+  try {
+    if (document.fullscreenElement) {
+      if (d.exitFullscreen) await d.exitFullscreen();
+      else if (d.webkitExitFullscreen) await d.webkitExitFullscreen();
+    }
+  } catch { /* ignore */ }
 }
