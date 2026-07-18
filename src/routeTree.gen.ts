@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhackRouteImport } from './routes/whack'
 import { Route as StopgoRouteImport } from './routes/stopgo'
+import { Route as SortRouteImport } from './routes/sort'
 import { Route as SimonRouteImport } from './routes/simon'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReactionRouteImport } from './routes/reaction'
@@ -31,6 +32,11 @@ const WhackRoute = WhackRouteImport.update({
 const StopgoRoute = StopgoRouteImport.update({
   id: '/stopgo',
   path: '/stopgo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SortRoute = SortRouteImport.update({
+  id: '/sort',
+  path: '/sort',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SimonRoute = SimonRouteImport.update({
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
+  '/sort': typeof SortRoute
   '/stopgo': typeof StopgoRoute
   '/whack': typeof WhackRoute
 }
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
+  '/sort': typeof SortRoute
   '/stopgo': typeof StopgoRoute
   '/whack': typeof WhackRoute
 }
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
+  '/sort': typeof SortRoute
   '/stopgo': typeof StopgoRoute
   '/whack': typeof WhackRoute
 }
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/reaction'
     | '/settings'
     | '/simon'
+    | '/sort'
     | '/stopgo'
     | '/whack'
   fileRoutesByTo: FileRoutesByTo
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
     | '/reaction'
     | '/settings'
     | '/simon'
+    | '/sort'
     | '/stopgo'
     | '/whack'
   id:
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/reaction'
     | '/settings'
     | '/simon'
+    | '/sort'
     | '/stopgo'
     | '/whack'
   fileRoutesById: FileRoutesById
@@ -195,6 +207,7 @@ export interface RootRouteChildren {
   ReactionRoute: typeof ReactionRoute
   SettingsRoute: typeof SettingsRoute
   SimonRoute: typeof SimonRoute
+  SortRoute: typeof SortRoute
   StopgoRoute: typeof StopgoRoute
   WhackRoute: typeof WhackRoute
 }
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/stopgo'
       fullPath: '/stopgo'
       preLoaderRoute: typeof StopgoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sort': {
+      id: '/sort'
+      path: '/sort'
+      fullPath: '/sort'
+      preLoaderRoute: typeof SortRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/simon': {
@@ -307,6 +327,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReactionRoute: ReactionRoute,
   SettingsRoute: SettingsRoute,
   SimonRoute: SimonRoute,
+  SortRoute: SortRoute,
   StopgoRoute: StopgoRoute,
   WhackRoute: WhackRoute,
 }
