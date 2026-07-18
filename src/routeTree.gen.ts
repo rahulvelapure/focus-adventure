@@ -16,6 +16,7 @@ import { Route as ReactionRouteImport } from './routes/reaction'
 import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as GamesRouteImport } from './routes/games'
 import { Route as FocusRouteImport } from './routes/focus'
 import { Route as BreatheRouteImport } from './routes/breathe'
 import { Route as IndexRouteImport } from './routes/index'
@@ -55,6 +56,11 @@ const LearnRoute = LearnRouteImport.update({
   path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamesRoute = GamesRouteImport.update({
+  id: '/games',
+  path: '/games',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FocusRoute = FocusRouteImport.update({
   id: '/focus',
   path: '/focus',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
   '/focus': typeof FocusRoute
+  '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
   '/oddone': typeof OddoneRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
   '/focus': typeof FocusRoute
+  '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
   '/oddone': typeof OddoneRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
   '/focus': typeof FocusRoute
+  '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
   '/oddone': typeof OddoneRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/breathe'
     | '/focus'
+    | '/games'
     | '/learn'
     | '/memory'
     | '/oddone'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/breathe'
     | '/focus'
+    | '/games'
     | '/learn'
     | '/memory'
     | '/oddone'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/breathe'
     | '/focus'
+    | '/games'
     | '/learn'
     | '/memory'
     | '/oddone'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BreatheRoute: typeof BreatheRoute
   FocusRoute: typeof FocusRoute
+  GamesRoute: typeof GamesRoute
   LearnRoute: typeof LearnRoute
   MemoryRoute: typeof MemoryRoute
   OddoneRoute: typeof OddoneRoute
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/games': {
+      id: '/games'
+      path: '/games'
+      fullPath: '/games'
+      preLoaderRoute: typeof GamesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/focus': {
       id: '/focus'
       path: '/focus'
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BreatheRoute: BreatheRoute,
   FocusRoute: FocusRoute,
+  GamesRoute: GamesRoute,
   LearnRoute: LearnRoute,
   MemoryRoute: MemoryRoute,
   OddoneRoute: OddoneRoute,
