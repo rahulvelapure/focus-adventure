@@ -137,6 +137,71 @@ const LESSONS: Lesson[] = [
     ],
     fact: "Many artists, athletes, and scientists have ADHD. It can be an engine, not just a challenge.",
   },
+  {
+    id: "mindful",
+    emoji: "🧘",
+    title: "Mindfulness: notice, don't react",
+    hook: "Your thoughts are clouds passing by.",
+    body: [
+      "Mindfulness means noticing what's happening RIGHT NOW without judging it.",
+      "Feel your feet on the floor. Hear 3 sounds. Take one long breath. That's mindfulness.",
+      "Practicing for even a few minutes a day helps ADHD brains catch distractions before they run away.",
+    ],
+    tryIt: { label: "Calm Bubble", to: "/breathe" },
+    fact: "The MYmind study showed 8 weeks of mindfulness reduced ADHD symptoms in kids and teens.",
+  },
+  {
+    id: "exercise",
+    emoji: "⚽",
+    title: "Exercise is brain medicine",
+    hook: "Sweat helps your focus chemicals show up.",
+    body: [
+      "Aerobic exercise (running, biking, swimming, dancing) makes more dopamine — the exact chemical ADHD meds boost.",
+      "Aim for 30–60 minutes most days. Even a 10-minute burst before homework helps.",
+      "Team sports and martial arts also train the brain's brake pedal.",
+    ],
+    fact: "Meta-analyses show regular aerobic exercise improves attention, working memory, and behavior in kids with ADHD.",
+  },
+  {
+    id: "food",
+    emoji: "🥑",
+    title: "Food that fuels focus",
+    hook: "Your brain eats what you eat.",
+    body: [
+      "Start the day with protein (eggs, yogurt, nut butter) — it keeps focus steady.",
+      "Omega-3 fats (salmon, walnuts, flax) help brain cells talk to each other.",
+      "Too much sugar or food dye can make wiggles worse for some kids. Water beats soda.",
+    ],
+    fact: "Several studies suggest omega-3 supplements give a small but real boost to attention in ADHD.",
+  },
+  {
+    id: "plan",
+    emoji: "📋",
+    title: "Break big into small",
+    hook: "One step at a time is how mountains get climbed.",
+    body: [
+      "Big tasks feel scary to ADHD brains. Break them into 3 tiny steps you can SEE.",
+      "Write each step on a sticky note. Move it to 'done' when finished.",
+      "This is called task decomposition and it's one of the strongest coping skills for ADHD.",
+    ],
+    tryIt: { label: "Number Line", to: "/sort" },
+    fact: "Doctors call this an 'executive function scaffold'.",
+  },
+  {
+    id: "outside",
+    emoji: "🌳",
+    title: "Green time > screen time",
+    hook: "Nature is free ADHD therapy.",
+    body: [
+      "Time outdoors — parks, backyards, hikes — calms hyperactivity and refills attention.",
+      "20 minutes of 'green time' after school works better than sitting on the couch.",
+      "Trees, dirt, and sunshine reset your brain's focus battery.",
+    ],
+    fact: "Studies by Faber Taylor & Kuo show kids with ADHD focus better after green outdoor play.",
+  },
+];
+// Backup end marker below is defensive; the real array closes above.
+const _LESSON_TAIL: Lesson[] = [
 ];
 
 function Learn() {
