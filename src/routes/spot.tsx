@@ -4,6 +4,7 @@ import { Play, Star, Search } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { useBest } from "@/lib/scores";
 import { sfx } from "@/lib/feedback";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/spot")({
   head: () => ({
