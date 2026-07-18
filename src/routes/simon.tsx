@@ -7,6 +7,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/simon")({
   head: () => ({
@@ -101,6 +102,7 @@ function Simon() {
   }
 
   useEffect(() => () => setActive(null), []);
+  useEndlessAutoRestart("simon", phase === "over", () => { setStep(0); begin(); });
 
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">

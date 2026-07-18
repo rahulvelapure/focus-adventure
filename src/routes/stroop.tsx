@@ -8,6 +8,8 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
+import { signal as frust } from "@/lib/frustration";
 
 export const Route = createFileRoute("/stroop")({
   head: () => ({
@@ -87,8 +89,8 @@ function Stroop() {
     if (!cur) return;
     if (tick.current) window.clearInterval(tick.current);
     const correct = pickId === cur.ink.id;
-    if (correct) { sfx.good(); setScore((s) => s + 1); }
-    else { sfx.bad(); setMisses((m) => m + 1); }
+    if (correct) { sfx.good(); setScore((s) => s + 1); frust("stroop", "hit"); }
+    else { sfx.bad(); setMisses((m) => m + 1); frust("stroop", "miss"); }
     const p = paramsFor(effective);
     const nextN = trial + 1;
     const newScore = correct ? score + 1 : score;
@@ -109,6 +111,8 @@ function Stroop() {
     sfx.win();
     recordPlay({ gameId: "stroop", accuracy: acc, correctCount: s });
   }
+
+  useEndlessAutoRestart("stroop", !running && (score + misses) > 0, () => start());
 
   const p = paramsFor(effective);
 

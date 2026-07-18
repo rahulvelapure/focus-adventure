@@ -8,6 +8,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/hold")({
   head: () => ({
@@ -110,6 +111,8 @@ function Hold() {
 
   const progress = target > 0 ? Math.min(1, elapsed / target) : 0;
   const inWindow = elapsed >= target - p.tol && elapsed <= target + p.tol;
+
+  useEndlessAutoRestart("hold", !running && (score + misses) > 0, () => start());
 
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">

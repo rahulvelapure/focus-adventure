@@ -434,6 +434,83 @@ export const CBT_LESSONS: LessonMap = {
       why: "Long waits are hard — celebrate the try, not just the perfect.",
     }),
   },
+  plando: {
+    easy: planning({
+      skill: "Plan · Do · Check",
+      why: "A tiny plan before you tap beats a rush that loses points.",
+      lesson: [
+        "PLAN: whisper each step in the plan out loud.",
+        "DO: tap the FIRST step first — no jumping ahead.",
+        "CHECK: after each tap, ask 'what's next?'",
+      ],
+    }),
+    medium: planning({
+      skill: "Whisper-and-tap",
+      why: "Saying the next step out loud keeps your working memory anchored.",
+      drill: [
+        {
+          prompt: "You forgot step 3. Best move?",
+          choices: [
+            "Panic-tap the shiniest tile.",
+            "Pause, whisper the last step you remember, then look for the pattern.",
+            "Quit the round.",
+          ],
+          correct: 1,
+          sayItOutLoud: "Pause. Whisper. Then tap.",
+        },
+      ],
+    }),
+    hard: planning({
+      skill: "Chunk the plan",
+      why: "Longer plans (6 steps) blow past the whiteboard — split them into pairs.",
+      lesson: [
+        "Break the plan into pairs: (1-2) (3-4) (5-6).",
+        "Whisper one pair, tap it, then load the next.",
+        "Missing a step is a chunk problem, not a you problem.",
+      ],
+    }),
+  },
+  switch: {
+    easy: focusMuscle({
+      skill: "Read the rule first",
+      why: "Task-switching stumbles happen when the brain follows the OLD rule. Read the rule EVERY trial.",
+      lesson: [
+        "Before you look at the shape, LOOK AT THE RULE.",
+        "Whisper it: 'COLOR' or 'SHAPE'.",
+        "Then answer.",
+      ],
+    }),
+    medium: stopThinkGo({
+      skill: "Pause · Rule · Answer",
+      why: "One extra half-second on switch trials cuts errors in half.",
+      lesson: [
+        "PAUSE — feel the switch coming.",
+        "READ the rule out loud in your head.",
+        "ANSWER only after the rule is loaded.",
+      ],
+      drill: [
+        {
+          prompt: "The rule just flipped from COLOR to SHAPE. What do you do first?",
+          choices: [
+            "Answer with the same button as last time.",
+            "Whisper 'SHAPE' first, then look at the card.",
+            "Guess quickly.",
+          ],
+          correct: 1,
+          sayItOutLoud: "New rule. Whisper it. Then answer.",
+        },
+      ],
+    }),
+    hard: restructure({
+      skill: "Swap the auto-thought",
+      why: "Fast switching is exhausting — coach yourself instead of scolding yourself.",
+      lesson: [
+        "Catch the sticky thought ('I keep messing up').",
+        "Check it: one slip ≠ all slips.",
+        "Swap to: 'switch trials are the workout — every rep counts.'",
+      ],
+    }),
+  },
 };
 
 const DONE_KEY = (gameId: string, level: CbtLevel) =>

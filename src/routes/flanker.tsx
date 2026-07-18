@@ -8,6 +8,8 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
+import { signal as frust } from "@/lib/frustration";
 
 export const Route = createFileRoute("/flanker")({
   head: () => ({
@@ -74,7 +76,7 @@ function Flanker() {
     if (!cur) return;
     if (tick.current) window.clearInterval(tick.current);
     const ok = pick === cur.middle;
-    if (ok) { sfx.good(); setScore((s) => s + 1); } else { sfx.bad(); setMisses((m) => m + 1); }
+    if (ok) { sfx.good(); setScore((s) => s + 1); frust("flanker", "hit"); } else { sfx.bad(); setMisses((m) => m + 1); frust("flanker", "miss"); }
     const p = paramsFor(effective);
     const n = trial + 1;
     const ns = ok ? score + 1 : score;
@@ -96,6 +98,8 @@ function Flanker() {
   }
 
   const p = paramsFor(effective);
+
+  useEndlessAutoRestart("flanker", !running && (score + misses) > 0, () => start());
 
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">

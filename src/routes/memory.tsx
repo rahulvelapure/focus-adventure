@@ -7,6 +7,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/memory")({
   head: () => ({
@@ -48,6 +49,7 @@ function Memory() {
   const [awarded, setAwarded] = useState(false);
 
   const won = useMemo(() => deck.length > 0 && deck.every((c) => c.matched), [deck]);
+  useEndlessAutoRestart("memory", won && awarded, () => reset(pairs));
 
   useEffect(() => {
     if (won && !awarded) {

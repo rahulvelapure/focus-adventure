@@ -8,6 +8,8 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
+import { signal as frust } from "@/lib/frustration";
 
 export const Route = createFileRoute("/whack")({
   head: () => ({
@@ -114,6 +116,7 @@ function Whack() {
     if (c === "go") {
       sfx.good();
       setScore((s) => s + 1);
+      frust("whack", "hit");
       setCells((prev) => {
         const n = [...prev];
         n[i] = "empty";
@@ -122,6 +125,7 @@ function Whack() {
     } else if (c === "nogo") {
       sfx.bad();
       setMisses((m) => m + 1);
+      frust("whack", "miss");
       setScore((s) => Math.max(0, s - 1));
       setCells((prev) => {
         const n = [...prev];
@@ -130,6 +134,8 @@ function Whack() {
       });
     }
   }
+
+  useEndlessAutoRestart("whack", !running && (score + misses) > 0, () => start());
 
   const secs = (left / 1000).toFixed(1);
 

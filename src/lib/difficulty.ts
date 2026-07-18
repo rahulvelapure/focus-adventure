@@ -32,9 +32,13 @@ export function writeLevel(id: string, level: Level) {
 export function readEndless(id: string): boolean {
   if (typeof window === "undefined") return false;
   try {
-    return window.localStorage.getItem(ENDLESS_KEY(id)) === "1";
+    const v = window.localStorage.getItem(ENDLESS_KEY(id));
+    if (v === "1") return true;
+    if (v === "0") return false;
+    // Default ON — every game runs endless until the child opts out.
+    return true;
   } catch {
-    return false;
+    return true;
   }
 }
 

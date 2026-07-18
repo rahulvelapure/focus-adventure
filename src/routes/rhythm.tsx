@@ -8,6 +8,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/rhythm")({
   head: () => ({
@@ -100,6 +101,8 @@ function Rhythm() {
     recordPlay({ gameId: "rhythm", accuracy: acc, correctCount: hits });
     setMisses((m) => m + Math.max(0, missed - m));
   }
+
+  useEndlessAutoRestart("rhythm", !running && (hits + misses) > 0, () => start());
 
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">

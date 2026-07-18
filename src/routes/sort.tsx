@@ -4,6 +4,7 @@ import { Play, Star, ListOrdered } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { useBest } from "@/lib/scores";
 import { sfx } from "@/lib/feedback";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/sort")({
   head: () => ({
@@ -74,6 +75,8 @@ function Sort() {
       if (level < 6) setLevel((l) => l + 1);
     }
   }
+
+  useEndlessAutoRestart("sort", !running && lastMs != null, () => start());
 
   return (
     <div className="mx-auto max-w-xl px-5 pt-8">

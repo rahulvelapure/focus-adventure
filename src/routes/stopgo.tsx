@@ -4,6 +4,8 @@ import { Play, RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
 import { CbtCoach } from "@/components/CbtCoach";
+import { signal as frust } from "@/lib/frustration";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/stopgo")({
   head: () => ({
@@ -94,12 +96,16 @@ function StopGo() {
       sfx.good();
       setScore((s) => s + 1);
       setSignal(null);
+      frust("stopgo", "hit");
     } else if (signal === "stop") {
       sfx.bad();
       setMisses((m) => m + 1);
       setSignal(null);
+      frust("stopgo", "miss");
     }
   }
+
+  useEndlessAutoRestart("stopgo", state === "done", () => start());
 
   const bg =
     signal === "go"

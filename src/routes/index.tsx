@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen, Flame, MoveHorizontal, Music, Hourglass } from "lucide-react";
+import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat, Target, Search, ListOrdered, Layers, BookOpen, Flame, MoveHorizontal, Music, Hourglass, ClipboardList, Shuffle } from "lucide-react";
 import mascot from "@/assets/mascot.png";
 import { useStars } from "@/lib/stars";
 import { useQuests } from "@/lib/quests";
@@ -114,6 +114,20 @@ const games = [
     desc: "Wait for green.",
     Icon: Hourglass,
     grad: "linear-gradient(135deg, oklch(0.7 0.16 130), oklch(0.68 0.19 190))",
+  },
+  {
+    to: "/plando" as const,
+    title: "Plan → Do",
+    desc: "Memorize. Then execute.",
+    Icon: ClipboardList,
+    grad: "linear-gradient(135deg, oklch(0.72 0.16 170), oklch(0.78 0.15 220))",
+  },
+  {
+    to: "/switch" as const,
+    title: "Rule Switch",
+    desc: "Rule keeps flipping!",
+    Icon: Shuffle,
+    grad: "linear-gradient(135deg, oklch(0.7 0.19 300), oklch(0.72 0.17 40))",
   },
 ];
 

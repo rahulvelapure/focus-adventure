@@ -4,6 +4,7 @@ import { Play, Star, Search } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { useBest } from "@/lib/scores";
 import { sfx } from "@/lib/feedback";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/spot")({
   head: () => ({
@@ -86,6 +87,8 @@ function Spot() {
       setLeft((l) => Math.max(0, l - 1500));
     }
   }
+
+  useEndlessAutoRestart("spot", !running && score > 0, () => start());
 
   const secs = (left / 1000).toFixed(1);
 

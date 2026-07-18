@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Home, BookOpen, Settings as SettingsIcon, Gamepad2, Flame } from "lucide-react";
 import { useSettings } from "@/lib/settings";
 import { registerPwa } from "@/lib/pwa";
+import { FrustrationCoach } from "@/components/FrustrationCoach";
 
 function NotFoundComponent() {
   return (
@@ -137,6 +138,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <BottomNav />
+        <FrustrationCoach />
       </div>
     </QueryClientProvider>
   );
