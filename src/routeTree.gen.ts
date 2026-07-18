@@ -15,6 +15,7 @@ import { Route as SimonRouteImport } from './routes/simon'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ReactionRouteImport } from './routes/reaction'
 import { Route as OddoneRouteImport } from './routes/oddone'
+import { Route as NbackRouteImport } from './routes/nback'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as GamesRouteImport } from './routes/games'
@@ -50,6 +51,11 @@ const ReactionRoute = ReactionRouteImport.update({
 const OddoneRoute = OddoneRouteImport.update({
   id: '/oddone',
   path: '/oddone',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NbackRoute = NbackRouteImport.update({
+  id: '/nback',
+  path: '/nback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MemoryRoute = MemoryRouteImport.update({
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
+  '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
+  '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
+  '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
   '/reaction': typeof ReactionRoute
   '/settings': typeof SettingsRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/games'
     | '/learn'
     | '/memory'
+    | '/nback'
     | '/oddone'
     | '/reaction'
     | '/settings'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/games'
     | '/learn'
     | '/memory'
+    | '/nback'
     | '/oddone'
     | '/reaction'
     | '/settings'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/games'
     | '/learn'
     | '/memory'
+    | '/nback'
     | '/oddone'
     | '/reaction'
     | '/settings'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   GamesRoute: typeof GamesRoute
   LearnRoute: typeof LearnRoute
   MemoryRoute: typeof MemoryRoute
+  NbackRoute: typeof NbackRoute
   OddoneRoute: typeof OddoneRoute
   ReactionRoute: typeof ReactionRoute
   SettingsRoute: typeof SettingsRoute
@@ -228,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/oddone'
       fullPath: '/oddone'
       preLoaderRoute: typeof OddoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nback': {
+      id: '/nback'
+      path: '/nback'
+      fullPath: '/nback'
+      preLoaderRoute: typeof NbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/memory': {
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   GamesRoute: GamesRoute,
   LearnRoute: LearnRoute,
   MemoryRoute: MemoryRoute,
+  NbackRoute: NbackRoute,
   OddoneRoute: OddoneRoute,
   ReactionRoute: ReactionRoute,
   SettingsRoute: SettingsRoute,
