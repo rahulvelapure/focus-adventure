@@ -89,8 +89,8 @@ function Stroop() {
     if (!cur) return;
     if (tick.current) window.clearInterval(tick.current);
     const correct = pickId === cur.ink.id;
-    if (correct) { sfx.good(); setScore((s) => s + 1); }
-    else { sfx.bad(); setMisses((m) => m + 1); }
+    if (correct) { sfx.good(); setScore((s) => s + 1); frust("stroop", "hit"); }
+    else { sfx.bad(); setMisses((m) => m + 1); frust("stroop", "miss"); }
     const p = paramsFor(effective);
     const nextN = trial + 1;
     const newScore = correct ? score + 1 : score;
