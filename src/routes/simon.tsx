@@ -3,6 +3,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
 import { sfx, tone } from "@/lib/feedback";
+import { DifficultyPicker } from "@/components/DifficultyPicker";
+import { useDifficulty } from "@/lib/difficulty";
+import { recordPlay } from "@/lib/progress";
 
 export const Route = createFileRoute("/simon")({
   head: () => ({
@@ -24,6 +27,9 @@ const PADS = [
 type Phase = "idle" | "showing" | "input" | "over";
 
 function Simon() {
+  const { effective } = useDifficulty("simon");
+  const stepMs = effective === "hard" ? 380 : effective === "medium" ? 520 : 700;
+  const flashMs = effective === "hard" ? 260 : effective === "medium" ? 340 : 420;
   const [seq, setSeq] = useState<number[]>([]);
   const [step, setStep] = useState(0);
   const [active, setActive] = useState<number | null>(null);
@@ -31,11 +37,11 @@ function Simon() {
   const { add } = useStars();
   const awarded = useRef(false);
 
-  const flash = useCallback((i: number, ms = 380) => {
+  const flash = useCallback((i: number, ms = flashMs) => {
     setActive(i);
     tone({ freq: PADS[i].freq, duration: ms / 1000, type: "triangle" });
     setTimeout(() => setActive(null), ms);
-  }, []);
+  }, [flashMs]);
 
   const play = useCallback(
     (list: number[]) => {
@@ -49,10 +55,10 @@ function Simon() {
               setStep(0);
             }, 500);
           }
-        }, 600 * idx + 400);
+        }, stepMs * idx + 400);
       });
     },
-    [flash],
+    [flash, stepMs],
   );
 
   function begin() {
@@ -79,6 +85,7 @@ function Simon() {
         awarded.current = true;
         add(reward);
       }
+      recordPlay({ gameId: "simon", accuracy: Math.min(1, (seq.length - 1) / 8), correctCount: seq.length - 1 });
       return;
     }
     const nextStep = step + 1;
@@ -100,6 +107,7 @@ function Simon() {
       <p className="mt-1 text-sm text-muted-foreground">
         Watch the pattern. Tap it back. Round: <b className="text-foreground">{seq.length}</b>
       </p>
+      <DifficultyPicker gameId="simon" />
 
       <div className="mt-6 grid grid-cols-2 gap-3">
         {PADS.map((p, i) => (
