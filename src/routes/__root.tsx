@@ -11,7 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { Home, Timer, Brain, Hand, Wind, BookOpen } from "lucide-react";
+import { Home, Wind, BookOpen, Settings as SettingsIcon, Gamepad2 } from "lucide-react";
+import { useSettings } from "@/lib/settings";
 
 function NotFoundComponent() {
   return (
@@ -121,6 +122,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  // Applies data-theme + .dark on <html>
+  useSettings();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -137,11 +140,10 @@ function RootComponent() {
 function BottomNav() {
   const items = [
     { to: "/", label: "Home", Icon: Home },
-    { to: "/focus", label: "Focus", Icon: Timer },
-    { to: "/memory", label: "Memory", Icon: Brain },
-    { to: "/stopgo", label: "Stop&Go", Icon: Hand },
+    { to: "/games", label: "Games", Icon: Gamepad2 },
     { to: "/breathe", label: "Calm", Icon: Wind },
     { to: "/learn", label: "Learn", Icon: BookOpen },
+    { to: "/settings", label: "Settings", Icon: SettingsIcon },
   ] as const;
   return (
     <nav
