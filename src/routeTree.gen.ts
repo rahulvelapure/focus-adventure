@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhackRouteImport } from './routes/whack'
+import { Route as SwitchRouteImport } from './routes/switch'
 import { Route as StroopRouteImport } from './routes/stroop'
 import { Route as StopgoRouteImport } from './routes/stopgo'
 import { Route as SpotRouteImport } from './routes/spot'
@@ -35,6 +36,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const WhackRoute = WhackRouteImport.update({
   id: '/whack',
   path: '/whack',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SwitchRoute = SwitchRouteImport.update({
+  id: '/switch',
+  path: '/switch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StroopRoute = StroopRouteImport.update({
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/spot': typeof SpotRoute
   '/stopgo': typeof StopgoRoute
   '/stroop': typeof StroopRoute
+  '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
 }
 export interface FileRoutesByTo {
@@ -189,6 +196,7 @@ export interface FileRoutesByTo {
   '/spot': typeof SpotRoute
   '/stopgo': typeof StopgoRoute
   '/stroop': typeof StroopRoute
+  '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
 }
 export interface FileRoutesById {
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/spot': typeof SpotRoute
   '/stopgo': typeof StopgoRoute
   '/stroop': typeof StroopRoute
+  '/switch': typeof SwitchRoute
   '/whack': typeof WhackRoute
 }
 export interface FileRouteTypes {
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/spot'
     | '/stopgo'
     | '/stroop'
+    | '/switch'
     | '/whack'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/spot'
     | '/stopgo'
     | '/stroop'
+    | '/switch'
     | '/whack'
   id:
     | '__root__'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/spot'
     | '/stopgo'
     | '/stroop'
+    | '/switch'
     | '/whack'
   fileRoutesById: FileRoutesById
 }
@@ -313,6 +325,7 @@ export interface RootRouteChildren {
   SpotRoute: typeof SpotRoute
   StopgoRoute: typeof StopgoRoute
   StroopRoute: typeof StroopRoute
+  SwitchRoute: typeof SwitchRoute
   WhackRoute: typeof WhackRoute
 }
 
@@ -323,6 +336,13 @@ declare module '@tanstack/react-router' {
       path: '/whack'
       fullPath: '/whack'
       preLoaderRoute: typeof WhackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/switch': {
+      id: '/switch'
+      path: '/switch'
+      fullPath: '/switch'
+      preLoaderRoute: typeof SwitchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stroop': {
@@ -497,6 +517,7 @@ const rootRouteChildren: RootRouteChildren = {
   SpotRoute: SpotRoute,
   StopgoRoute: StopgoRoute,
   StroopRoute: StroopRoute,
+  SwitchRoute: SwitchRoute,
   WhackRoute: WhackRoute,
 }
 export const routeTree = rootRouteImport
