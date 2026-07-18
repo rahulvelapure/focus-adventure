@@ -13,8 +13,10 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Home, BookOpen, Settings as SettingsIcon, Gamepad2, Flame } from "lucide-react";
 import { useSettings } from "@/lib/settings";
+import { exitFullscreen } from "@/lib/settings";
 import { registerPwa } from "@/lib/pwa";
 import { FrustrationCoach } from "@/components/FrustrationCoach";
+import { Minimize2 } from "lucide-react";
 
 function NotFoundComponent() {
   return (
@@ -125,7 +127,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   // Applies data-theme + .dark on <html>
-  useSettings();
+  const { settings, update } = useSettings();
 
   useEffect(() => {
     registerPwa();
@@ -133,11 +135,24 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-dvh flex flex-col pb-24">
+      <div className={`min-h-dvh flex flex-col ${settings.focusMode ? "pb-2" : "pb-24"}`}>
         <main className="flex-1">
           <Outlet />
         </main>
-        <BottomNav />
+        {settings.focusMode ? (
+          <button
+            onClick={() => {
+              update({ focusMode: false });
+              exitFullscreen();
+            }}
+            aria-label="Exit focus mode"
+            className="fixed bottom-4 left-4 z-40 inline-flex items-center gap-1 rounded-full bg-card/90 backdrop-blur px-3 py-2 text-xs font-bold text-muted-foreground shadow-lg min-h-11"
+          >
+            <Minimize2 className="size-4" /> Exit focus
+          </button>
+        ) : (
+          <BottomNav />
+        )}
         <FrustrationCoach />
       </div>
     </QueryClientProvider>

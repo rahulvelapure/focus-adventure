@@ -4,6 +4,9 @@ import { useDifficulty } from "@/lib/difficulty";
 import { getLesson, useCbtDone, type CbtLevel } from "@/lib/cbt";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
+import { useSettings } from "@/lib/settings";
+import { useFrustrationEvent } from "@/lib/frustration";
+import { useEffect } from "react";
 
 type Props = { gameId: string; title?: string };
 
@@ -18,13 +21,33 @@ export function CbtCoach({ gameId, title = "Brain coach" }: Props) {
   const lesson = useMemo(() => getLesson(gameId, level), [gameId, level]);
   const { done, markDone, reset } = useCbtDone(gameId, level);
   const { add } = useStars();
+  const { settings } = useSettings();
+  const frustration = useFrustrationEvent();
 
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [wrong, setWrong] = useState(false);
+  // Auto-surface the coach only when the child struggles in this game
+  // during Focus Mode.
+  useEffect(() => {
+    if (settings.focusMode && frustration?.gameId === gameId) setOpen(true);
+  }, [frustration, settings.focusMode, gameId]);
 
   if (!lesson) return null;
+  // Focus Mode: hide the whole card unless the child (or frustration
+  // detector) has opened it. Keeps the play screen distraction-free.
+  if (settings.focusMode && !open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        aria-label="Open brain coach"
+        className="fixed bottom-24 right-4 z-30 grid size-11 place-items-center rounded-full bg-accent text-accent-foreground shadow-lg"
+      >
+        <Brain className="size-5" />
+      </button>
+    );
+  }
   const drill = lesson.drill;
   const current = drill[step];
   const isLast = step === drill.length - 1;

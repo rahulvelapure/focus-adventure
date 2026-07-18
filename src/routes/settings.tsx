@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Volume2, VolumeX, Vibrate, Star, RotateCcw, BookOpen, ChevronRight } from "lucide-react";
-import { useSettings, THEMES, type Theme } from "@/lib/settings";
+import { Volume2, VolumeX, Vibrate, Star, RotateCcw, BookOpen, ChevronRight, Maximize2 } from "lucide-react";
+import { useSettings, THEMES, tryEnterFullscreen, exitFullscreen, type Theme } from "@/lib/settings";
 import { useStars } from "@/lib/stars";
 import { sfx } from "@/lib/feedback";
 
@@ -86,6 +86,20 @@ function Settings() {
           }}
           IconOn={Vibrate}
           IconOff={Vibrate}
+        />
+        <Toggle
+          label="Focus Mode"
+          desc="Hide the menu, go full-screen, and only show Brain coach when needed"
+          on={settings.focusMode}
+          onToggle={() => {
+            const next = !settings.focusMode;
+            update({ focusMode: next });
+            if (next) tryEnterFullscreen();
+            else exitFullscreen();
+            sfx.tap();
+          }}
+          IconOn={Maximize2}
+          IconOff={Maximize2}
         />
       </section>
 
