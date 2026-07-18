@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Timer, Brain, Hand, Wind, Star, Sparkles } from "lucide-react";
+import { Timer, Brain, Hand, Wind, Star, Sparkles, Zap, Palette, Eye, Repeat } from "lucide-react";
 import mascot from "@/assets/mascot.png";
 import { useStars } from "@/lib/stars";
 
@@ -35,6 +35,27 @@ const games = [
     desc: "Slow the wiggles.",
     Icon: Wind,
     grad: "linear-gradient(135deg, oklch(0.82 0.13 220), oklch(0.86 0.11 145))",
+  },
+  {
+    to: "/simon" as const,
+    title: "Copy Cat",
+    desc: "Watch. Copy. Grow.",
+    Icon: Repeat,
+    grad: "linear-gradient(135deg, oklch(0.72 0.18 150), oklch(0.82 0.16 100))",
+  },
+  {
+    to: "/reaction" as const,
+    title: "Quick Tap",
+    desc: "Fast, but not too fast.",
+    Icon: Zap,
+    grad: "linear-gradient(135deg, oklch(0.7 0.19 25), oklch(0.82 0.17 65))",
+  },
+  {
+    to: "/oddone" as const,
+    title: "Odd One Out",
+    desc: "Spot the different one.",
+    Icon: Eye,
+    grad: "linear-gradient(135deg, oklch(0.68 0.18 300), oklch(0.78 0.14 250))",
   },
 ];
 
@@ -96,13 +117,24 @@ function Home() {
         ))}
       </ul>
 
-      <Link
-        to="/learn"
-        className="mt-6 block rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-[var(--shadow-soft)]"
-      >
-        <p className="text-xs font-bold uppercase tracking-wider text-secondary-foreground">For grown-ups</p>
-        <p className="mt-1 font-display">How this helps → learning methodology</p>
-      </Link>
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <Link
+          to="/settings"
+          className="rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-[var(--shadow-soft)]"
+        >
+          <Palette className="size-5 text-primary" aria-hidden />
+          <p className="mt-2 font-display text-sm">Themes & sounds</p>
+          <p className="text-xs text-muted-foreground">Make it yours</p>
+        </Link>
+        <Link
+          to="/learn"
+          className="rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-[var(--shadow-soft)]"
+        >
+          <Sparkles className="size-5 text-primary" aria-hidden />
+          <p className="mt-2 font-display text-sm">For grown-ups</p>
+          <p className="text-xs text-muted-foreground">How this helps</p>
+        </Link>
+      </div>
     </div>
   );
 }

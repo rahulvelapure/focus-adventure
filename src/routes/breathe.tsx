@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
+import { sfx, tone } from "@/lib/feedback";
 
 export const Route = createFileRoute("/breathe")({
   head: () => ({
@@ -34,22 +35,36 @@ function Breathe() {
     const id = window.setInterval(() => {
       setRemaining((s) => {
         if (s > 1) return s - 1;
+        // advance phase
         setPhase((p) => {
           const next = (p + 1) % PHASES.length;
           if (next === 0) setCycles((c) => c + 1);
-          setRemaining(PHASES[next].secs);
+          // gentle chime on phase change
+          tone({
+            freq: next === 0 ? 520 : next === 1 ? 660 : 440,
+            duration: 0.18,
+            type: "sine",
+            volume: 0.12,
+          });
           return next;
         });
-        return PHASES[(phase + 1) % PHASES.length].secs;
+        // remaining will be reset by the effect below reacting to phase
+        return 0;
       });
     }, 1000);
     return () => window.clearInterval(id);
-  }, [running, phase]);
+  }, [running]);
+
+  // Reset remaining whenever phase changes (keeps timer in sync)
+  useEffect(() => {
+    setRemaining(PHASES[phase].secs);
+  }, [phase]);
 
   useEffect(() => {
     if (cycles >= 3 && !awarded.current) {
       awarded.current = true;
       add(2);
+      sfx.win();
     }
   }, [cycles, add]);
 
@@ -93,7 +108,10 @@ function Breathe() {
         ) : null}
 
         <button
-          onClick={() => setRunning((r) => !r)}
+          onClick={() => {
+            sfx.tap();
+            setRunning((r) => !r);
+          }}
           className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground btn-pop active:btn-pop-active min-h-11"
         >
           {running ? <Pause className="size-5" /> : <Play className="size-5" />}

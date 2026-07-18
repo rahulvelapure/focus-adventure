@@ -10,8 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StopgoRouteImport } from './routes/stopgo'
+import { Route as SimonRouteImport } from './routes/simon'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ReactionRouteImport } from './routes/reaction'
+import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as GamesRouteImport } from './routes/games'
 import { Route as FocusRouteImport } from './routes/focus'
 import { Route as BreatheRouteImport } from './routes/breathe'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,6 +24,26 @@ import { Route as IndexRouteImport } from './routes/index'
 const StopgoRoute = StopgoRouteImport.update({
   id: '/stopgo',
   path: '/stopgo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SimonRoute = SimonRouteImport.update({
+  id: '/simon',
+  path: '/simon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReactionRoute = ReactionRouteImport.update({
+  id: '/reaction',
+  path: '/reaction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OddoneRoute = OddoneRouteImport.update({
+  id: '/oddone',
+  path: '/oddone',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MemoryRoute = MemoryRouteImport.update({
@@ -29,6 +54,11 @@ const MemoryRoute = MemoryRouteImport.update({
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamesRoute = GamesRouteImport.update({
+  id: '/games',
+  path: '/games',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FocusRoute = FocusRouteImport.update({
@@ -51,16 +81,26 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
   '/focus': typeof FocusRoute
+  '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
+  '/oddone': typeof OddoneRoute
+  '/reaction': typeof ReactionRoute
+  '/settings': typeof SettingsRoute
+  '/simon': typeof SimonRoute
   '/stopgo': typeof StopgoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
   '/focus': typeof FocusRoute
+  '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
+  '/oddone': typeof OddoneRoute
+  '/reaction': typeof ReactionRoute
+  '/settings': typeof SettingsRoute
+  '/simon': typeof SimonRoute
   '/stopgo': typeof StopgoRoute
 }
 export interface FileRoutesById {
@@ -68,22 +108,54 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
   '/focus': typeof FocusRoute
+  '/games': typeof GamesRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
+  '/oddone': typeof OddoneRoute
+  '/reaction': typeof ReactionRoute
+  '/settings': typeof SettingsRoute
+  '/simon': typeof SimonRoute
   '/stopgo': typeof StopgoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/breathe' | '/focus' | '/learn' | '/memory' | '/stopgo'
+  fullPaths:
+    | '/'
+    | '/breathe'
+    | '/focus'
+    | '/games'
+    | '/learn'
+    | '/memory'
+    | '/oddone'
+    | '/reaction'
+    | '/settings'
+    | '/simon'
+    | '/stopgo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/breathe' | '/focus' | '/learn' | '/memory' | '/stopgo'
+  to:
+    | '/'
+    | '/breathe'
+    | '/focus'
+    | '/games'
+    | '/learn'
+    | '/memory'
+    | '/oddone'
+    | '/reaction'
+    | '/settings'
+    | '/simon'
+    | '/stopgo'
   id:
     | '__root__'
     | '/'
     | '/breathe'
     | '/focus'
+    | '/games'
     | '/learn'
     | '/memory'
+    | '/oddone'
+    | '/reaction'
+    | '/settings'
+    | '/simon'
     | '/stopgo'
   fileRoutesById: FileRoutesById
 }
@@ -91,8 +163,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BreatheRoute: typeof BreatheRoute
   FocusRoute: typeof FocusRoute
+  GamesRoute: typeof GamesRoute
   LearnRoute: typeof LearnRoute
   MemoryRoute: typeof MemoryRoute
+  OddoneRoute: typeof OddoneRoute
+  ReactionRoute: typeof ReactionRoute
+  SettingsRoute: typeof SettingsRoute
+  SimonRoute: typeof SimonRoute
   StopgoRoute: typeof StopgoRoute
 }
 
@@ -103,6 +180,34 @@ declare module '@tanstack/react-router' {
       path: '/stopgo'
       fullPath: '/stopgo'
       preLoaderRoute: typeof StopgoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/simon': {
+      id: '/simon'
+      path: '/simon'
+      fullPath: '/simon'
+      preLoaderRoute: typeof SimonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reaction': {
+      id: '/reaction'
+      path: '/reaction'
+      fullPath: '/reaction'
+      preLoaderRoute: typeof ReactionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oddone': {
+      id: '/oddone'
+      path: '/oddone'
+      fullPath: '/oddone'
+      preLoaderRoute: typeof OddoneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/memory': {
@@ -117,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/learn'
       fullPath: '/learn'
       preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/games': {
+      id: '/games'
+      path: '/games'
+      fullPath: '/games'
+      preLoaderRoute: typeof GamesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/focus': {
@@ -147,8 +259,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BreatheRoute: BreatheRoute,
   FocusRoute: FocusRoute,
+  GamesRoute: GamesRoute,
   LearnRoute: LearnRoute,
   MemoryRoute: MemoryRoute,
+  OddoneRoute: OddoneRoute,
+  ReactionRoute: ReactionRoute,
+  SettingsRoute: SettingsRoute,
+  SimonRoute: SimonRoute,
   StopgoRoute: StopgoRoute,
 }
 export const routeTree = rootRouteImport

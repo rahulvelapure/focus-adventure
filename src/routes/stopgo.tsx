@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Play, RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
+import { sfx } from "@/lib/feedback";
 
 export const Route = createFileRoute("/stopgo")({
   head: () => ({
@@ -80,15 +81,20 @@ function StopGo() {
   useEffect(() => {
     if (state !== "done") return;
     const reward = Math.max(0, Math.floor(score / 3) - misses);
-    if (reward > 0) add(reward);
+    if (reward > 0) {
+      add(reward);
+      sfx.win();
+    }
   }, [state, score, misses, add]);
 
   function tap() {
     if (state !== "playing") return;
     if (signal === "go") {
+      sfx.good();
       setScore((s) => s + 1);
       setSignal(null);
     } else if (signal === "stop") {
+      sfx.bad();
       setMisses((m) => m + 1);
       setSignal(null);
     }

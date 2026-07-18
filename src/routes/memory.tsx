@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
+import { sfx } from "@/lib/feedback";
 
 export const Route = createFileRoute("/memory")({
   head: () => ({
@@ -46,6 +47,7 @@ function Memory() {
     if (won && !awarded) {
       setAwarded(true);
       add(pairs);
+      sfx.win();
     }
   }, [won, awarded, add, pairs]);
 
@@ -55,6 +57,8 @@ function Memory() {
     const t = window.setTimeout(() => {
       setDeck((d) => {
         const same = d[a].emoji === d[b].emoji;
+        if (same) sfx.good();
+        else sfx.bad();
         return d.map((c, i) =>
           i === a || i === b ? { ...c, flipped: same, matched: same } : c,
         );
@@ -75,6 +79,7 @@ function Memory() {
   function flip(i: number) {
     if (picked.length === 2) return;
     if (deck[i].flipped || deck[i].matched) return;
+    sfx.tap();
     setDeck((d) => d.map((c, idx) => (idx === i ? { ...c, flipped: true } : c)));
     setPicked((p) => {
       const next = [...p, i];

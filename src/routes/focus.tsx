@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause, RotateCcw, Star } from "lucide-react";
 import { useStars } from "@/lib/stars";
+import { sfx, tone } from "@/lib/feedback";
 
 export const Route = createFileRoute("/focus")({
   head: () => ({
@@ -38,9 +39,11 @@ function Focus() {
           if (!done.current) {
             done.current = true;
             add(minutes);
+            sfx.win();
           }
           return 0;
         }
+        if (s <= 4 && s > 1) tone({ freq: 660, duration: 0.08, type: "triangle", volume: 0.1 });
         return s - 1;
       });
     }, 1000);
@@ -123,6 +126,7 @@ function Focus() {
       <div className="mt-6 flex justify-center gap-3">
         <button
           onClick={() => {
+            sfx.tap();
             if (finished) {
               setLeft(minutes * 60);
               done.current = false;
