@@ -8,6 +8,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { useEndlessAutoRestart } from "@/lib/endless";
 
 export const Route = createFileRoute("/whack")({
   head: () => ({
