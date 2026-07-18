@@ -76,7 +76,7 @@ function Flanker() {
     if (!cur) return;
     if (tick.current) window.clearInterval(tick.current);
     const ok = pick === cur.middle;
-    if (ok) { sfx.good(); setScore((s) => s + 1); } else { sfx.bad(); setMisses((m) => m + 1); }
+    if (ok) { sfx.good(); setScore((s) => s + 1); frust("flanker", "hit"); } else { sfx.bad(); setMisses((m) => m + 1); frust("flanker", "miss"); }
     const p = paramsFor(effective);
     const n = trial + 1;
     const ns = ok ? score + 1 : score;
