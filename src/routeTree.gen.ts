@@ -10,26 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhackRouteImport } from './routes/whack'
+import { Route as StroopRouteImport } from './routes/stroop'
 import { Route as StopgoRouteImport } from './routes/stopgo'
 import { Route as SpotRouteImport } from './routes/spot'
 import { Route as SortRouteImport } from './routes/sort'
 import { Route as SimonRouteImport } from './routes/simon'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RhythmRouteImport } from './routes/rhythm'
 import { Route as ReactionRouteImport } from './routes/reaction'
 import { Route as QuestsRouteImport } from './routes/quests'
 import { Route as OddoneRouteImport } from './routes/oddone'
 import { Route as NbackRouteImport } from './routes/nback'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as HoldRouteImport } from './routes/hold'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as GamesRouteImport } from './routes/games'
 import { Route as FocusRouteImport } from './routes/focus'
+import { Route as FlankerRouteImport } from './routes/flanker'
 import { Route as BreatheRouteImport } from './routes/breathe'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WhackRoute = WhackRouteImport.update({
   id: '/whack',
   path: '/whack',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StroopRoute = StroopRouteImport.update({
+  id: '/stroop',
+  path: '/stroop',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StopgoRoute = StopgoRouteImport.update({
@@ -55,6 +64,11 @@ const SimonRoute = SimonRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RhythmRoute = RhythmRouteImport.update({
+  id: '/rhythm',
+  path: '/rhythm',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReactionRoute = ReactionRouteImport.update({
@@ -87,6 +101,11 @@ const LearnRoute = LearnRouteImport.update({
   path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HoldRoute = HoldRouteImport.update({
+  id: '/hold',
+  path: '/hold',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuideRoute = GuideRouteImport.update({
   id: '/guide',
   path: '/guide',
@@ -100,6 +119,11 @@ const GamesRoute = GamesRouteImport.update({
 const FocusRoute = FocusRouteImport.update({
   id: '/focus',
   path: '/focus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlankerRoute = FlankerRouteImport.update({
+  id: '/flanker',
+  path: '/flanker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BreatheRoute = BreatheRouteImport.update({
@@ -116,59 +140,71 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
+  '/flanker': typeof FlankerRoute
   '/focus': typeof FocusRoute
   '/games': typeof GamesRoute
   '/guide': typeof GuideRoute
+  '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
   '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
+  '/rhythm': typeof RhythmRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
   '/sort': typeof SortRoute
   '/spot': typeof SpotRoute
   '/stopgo': typeof StopgoRoute
+  '/stroop': typeof StroopRoute
   '/whack': typeof WhackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
+  '/flanker': typeof FlankerRoute
   '/focus': typeof FocusRoute
   '/games': typeof GamesRoute
   '/guide': typeof GuideRoute
+  '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
   '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
+  '/rhythm': typeof RhythmRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
   '/sort': typeof SortRoute
   '/spot': typeof SpotRoute
   '/stopgo': typeof StopgoRoute
+  '/stroop': typeof StroopRoute
   '/whack': typeof WhackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/breathe': typeof BreatheRoute
+  '/flanker': typeof FlankerRoute
   '/focus': typeof FocusRoute
   '/games': typeof GamesRoute
   '/guide': typeof GuideRoute
+  '/hold': typeof HoldRoute
   '/learn': typeof LearnRoute
   '/memory': typeof MemoryRoute
   '/nback': typeof NbackRoute
   '/oddone': typeof OddoneRoute
   '/quests': typeof QuestsRoute
   '/reaction': typeof ReactionRoute
+  '/rhythm': typeof RhythmRoute
   '/settings': typeof SettingsRoute
   '/simon': typeof SimonRoute
   '/sort': typeof SortRoute
   '/spot': typeof SpotRoute
   '/stopgo': typeof StopgoRoute
+  '/stroop': typeof StroopRoute
   '/whack': typeof WhackRoute
 }
 export interface FileRouteTypes {
@@ -176,78 +212,94 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/breathe'
+    | '/flanker'
     | '/focus'
     | '/games'
     | '/guide'
+    | '/hold'
     | '/learn'
     | '/memory'
     | '/nback'
     | '/oddone'
     | '/quests'
     | '/reaction'
+    | '/rhythm'
     | '/settings'
     | '/simon'
     | '/sort'
     | '/spot'
     | '/stopgo'
+    | '/stroop'
     | '/whack'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/breathe'
+    | '/flanker'
     | '/focus'
     | '/games'
     | '/guide'
+    | '/hold'
     | '/learn'
     | '/memory'
     | '/nback'
     | '/oddone'
     | '/quests'
     | '/reaction'
+    | '/rhythm'
     | '/settings'
     | '/simon'
     | '/sort'
     | '/spot'
     | '/stopgo'
+    | '/stroop'
     | '/whack'
   id:
     | '__root__'
     | '/'
     | '/breathe'
+    | '/flanker'
     | '/focus'
     | '/games'
     | '/guide'
+    | '/hold'
     | '/learn'
     | '/memory'
     | '/nback'
     | '/oddone'
     | '/quests'
     | '/reaction'
+    | '/rhythm'
     | '/settings'
     | '/simon'
     | '/sort'
     | '/spot'
     | '/stopgo'
+    | '/stroop'
     | '/whack'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BreatheRoute: typeof BreatheRoute
+  FlankerRoute: typeof FlankerRoute
   FocusRoute: typeof FocusRoute
   GamesRoute: typeof GamesRoute
   GuideRoute: typeof GuideRoute
+  HoldRoute: typeof HoldRoute
   LearnRoute: typeof LearnRoute
   MemoryRoute: typeof MemoryRoute
   NbackRoute: typeof NbackRoute
   OddoneRoute: typeof OddoneRoute
   QuestsRoute: typeof QuestsRoute
   ReactionRoute: typeof ReactionRoute
+  RhythmRoute: typeof RhythmRoute
   SettingsRoute: typeof SettingsRoute
   SimonRoute: typeof SimonRoute
   SortRoute: typeof SortRoute
   SpotRoute: typeof SpotRoute
   StopgoRoute: typeof StopgoRoute
+  StroopRoute: typeof StroopRoute
   WhackRoute: typeof WhackRoute
 }
 
@@ -258,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/whack'
       fullPath: '/whack'
       preLoaderRoute: typeof WhackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stroop': {
+      id: '/stroop'
+      path: '/stroop'
+      fullPath: '/stroop'
+      preLoaderRoute: typeof StroopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stopgo': {
@@ -293,6 +352,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rhythm': {
+      id: '/rhythm'
+      path: '/rhythm'
+      fullPath: '/rhythm'
+      preLoaderRoute: typeof RhythmRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reaction': {
@@ -337,6 +403,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hold': {
+      id: '/hold'
+      path: '/hold'
+      fullPath: '/hold'
+      preLoaderRoute: typeof HoldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guide': {
       id: '/guide'
       path: '/guide'
@@ -356,6 +429,13 @@ declare module '@tanstack/react-router' {
       path: '/focus'
       fullPath: '/focus'
       preLoaderRoute: typeof FocusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flanker': {
+      id: '/flanker'
+      path: '/flanker'
+      fullPath: '/flanker'
+      preLoaderRoute: typeof FlankerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/breathe': {
@@ -378,20 +458,24 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BreatheRoute: BreatheRoute,
+  FlankerRoute: FlankerRoute,
   FocusRoute: FocusRoute,
   GamesRoute: GamesRoute,
   GuideRoute: GuideRoute,
+  HoldRoute: HoldRoute,
   LearnRoute: LearnRoute,
   MemoryRoute: MemoryRoute,
   NbackRoute: NbackRoute,
   OddoneRoute: OddoneRoute,
   QuestsRoute: QuestsRoute,
   ReactionRoute: ReactionRoute,
+  RhythmRoute: RhythmRoute,
   SettingsRoute: SettingsRoute,
   SimonRoute: SimonRoute,
   SortRoute: SortRoute,
   SpotRoute: SpotRoute,
   StopgoRoute: StopgoRoute,
+  StroopRoute: StroopRoute,
   WhackRoute: WhackRoute,
 }
 export const routeTree = rootRouteImport
