@@ -9,6 +9,7 @@ import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
 import { useEndlessAutoRestart } from "@/lib/endless";
+import { signal as frust } from "@/lib/frustration";
 
 export const Route = createFileRoute("/whack")({
   head: () => ({
