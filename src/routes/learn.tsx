@@ -200,9 +200,6 @@ const LESSONS: Lesson[] = [
     fact: "Studies by Faber Taylor & Kuo show kids with ADHD focus better after green outdoor play.",
   },
 ];
-// Backup end marker below is defensive; the real array closes above.
-const _LESSON_TAIL: Lesson[] = [
-];
 
 function Learn() {
   const [openId, setOpenId] = useState<string | null>("brain");
