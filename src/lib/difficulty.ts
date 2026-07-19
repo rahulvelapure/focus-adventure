@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { emit, isBrowser, readJSON, readString, writeString } from "./storage";
+import { useWindowEvent } from "./use-window-event";
 
 export type Level = "easy" | "medium" | "hard" | "adaptive";
 
@@ -14,64 +16,42 @@ const HIST_KEY = (id: string) => `foxfocus.hist.v1.${id}`;
 const ENDLESS_KEY = (id: string) => `foxfocus.endless.v1.${id}`;
 
 export function readLevel(id: string): Level {
-  if (typeof window === "undefined") return "easy";
-  try {
-    const v = window.localStorage.getItem(LEVEL_KEY(id));
-    if (v === "easy" || v === "medium" || v === "hard" || v === "adaptive") return v;
-  } catch {}
+  const v = readString(LEVEL_KEY(id));
+  if (v === "easy" || v === "medium" || v === "hard" || v === "adaptive") return v;
   return "easy";
 }
 
 export function writeLevel(id: string, level: Level) {
-  try {
-    window.localStorage.setItem(LEVEL_KEY(id), level);
-    window.dispatchEvent(new CustomEvent("foxfocus:difficulty"));
-  } catch {}
+  writeString(LEVEL_KEY(id), level);
+  emit("foxfocus:difficulty");
 }
 
 export function readEndless(id: string): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const v = window.localStorage.getItem(ENDLESS_KEY(id));
-    if (v === "1") return true;
-    if (v === "0") return false;
-    // Default ON — every game runs endless until the child opts out.
-    return true;
-  } catch {
-    return true;
-  }
+  if (!isBrowser()) return false;
+  const v = readString(ENDLESS_KEY(id));
+  if (v === "0") return false;
+  // Default ON — every game runs endless until the child opts out.
+  return true;
 }
 
 export function writeEndless(id: string, v: boolean) {
-  try {
-    window.localStorage.setItem(ENDLESS_KEY(id), v ? "1" : "0");
-    window.dispatchEvent(new CustomEvent("foxfocus:difficulty"));
-  } catch {}
+  writeString(ENDLESS_KEY(id), v ? "1" : "0");
+  emit("foxfocus:difficulty");
 }
 
 /** Push a normalized 0..1 accuracy sample used by adaptive engine. */
 export function pushSample(id: string, accuracy: number) {
-  if (typeof window === "undefined") return;
-  try {
-    const raw = window.localStorage.getItem(HIST_KEY(id));
-    const arr: number[] = raw ? JSON.parse(raw) : [];
-    arr.push(Math.max(0, Math.min(1, accuracy)));
-    while (arr.length > 8) arr.shift();
-    window.localStorage.setItem(HIST_KEY(id), JSON.stringify(arr));
-  } catch {}
+  const arr = readJSON<number[]>(HIST_KEY(id), []);
+  arr.push(Math.max(0, Math.min(1, accuracy)));
+  while (arr.length > 8) arr.shift();
+  writeString(HIST_KEY(id), JSON.stringify(arr));
 }
 
 export function recentAccuracy(id: string): number {
-  if (typeof window === "undefined") return 0.5;
-  try {
-    const raw = window.localStorage.getItem(HIST_KEY(id));
-    const arr: number[] = raw ? JSON.parse(raw) : [];
-    if (!arr.length) return 0.5;
-    const last = arr.slice(-5);
-    return last.reduce((a, b) => a + b, 0) / last.length;
-  } catch {
-    return 0.5;
-  }
+  const arr = readJSON<number[]>(HIST_KEY(id), []);
+  if (!arr.length) return 0.5;
+  const last = arr.slice(-5);
+  return last.reduce((a, b) => a + b, 0) / last.length;
 }
 
 /**
@@ -93,15 +73,16 @@ export function useDifficulty(id: string) {
   const [effective, setEffective] = useState<Exclude<Level, "adaptive">>("easy");
 
   useEffect(() => {
-    const sync = () => {
-      setLevel(readLevel(id));
-      setEndlessState(readEndless(id));
-      setEffective(effectiveLevel(id));
-    };
-    sync();
-    window.addEventListener("foxfocus:difficulty", sync);
-    return () => window.removeEventListener("foxfocus:difficulty", sync);
+    setLevel(readLevel(id));
+    setEndlessState(readEndless(id));
+    setEffective(effectiveLevel(id));
   }, [id]);
+
+  useWindowEvent("foxfocus:difficulty", () => {
+    setLevel(readLevel(id));
+    setEndlessState(readEndless(id));
+    setEffective(effectiveLevel(id));
+  });
 
   const setLevelCb = useCallback((l: Level) => { writeLevel(id, l); }, [id]);
   const setEndless = useCallback((v: boolean) => { writeEndless(id, v); }, [id]);

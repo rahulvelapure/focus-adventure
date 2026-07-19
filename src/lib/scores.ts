@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { readString, writeString } from "./storage";
 
 // Persistent best-score storage per game.
 // Higher-is-better by default; pass mode: "min" for time-like scores.
@@ -10,21 +11,12 @@ function key(id: string) {
 }
 
 export function readBest(id: string): number | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.localStorage.getItem(key(id));
-    return raw == null ? null : Number(raw);
-  } catch {
-    return null;
-  }
+  const raw = readString(key(id));
+  return raw == null ? null : Number(raw);
 }
 
 export function writeBest(id: string, value: number) {
-  try {
-    window.localStorage.setItem(key(id), String(value));
-  } catch {
-    /* ignore */
-  }
+  writeString(key(id), String(value));
 }
 
 export function useBest(id: string, mode: "max" | "min" = "max") {

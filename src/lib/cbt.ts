@@ -5,6 +5,7 @@
 // behavioural rehearsal.
 
 import { useCallback, useEffect, useState } from "react";
+import { readString, removeKey, writeString } from "./storage";
 
 export type CbtLevel = "easy" | "medium" | "hard";
 
@@ -583,20 +584,14 @@ export function getLesson(gameId: string, level: CbtLevel): CbtLesson | null {
 export function useCbtDone(gameId: string, level: CbtLevel) {
   const [done, setDone] = useState(false);
   useEffect(() => {
-    try {
-      setDone(window.localStorage.getItem(DONE_KEY(gameId, level)) === "1");
-    } catch {}
+    setDone(readString(DONE_KEY(gameId, level)) === "1");
   }, [gameId, level]);
   const markDone = useCallback(() => {
-    try {
-      window.localStorage.setItem(DONE_KEY(gameId, level), "1");
-    } catch {}
+    writeString(DONE_KEY(gameId, level), "1");
     setDone(true);
   }, [gameId, level]);
   const reset = useCallback(() => {
-    try {
-      window.localStorage.removeItem(DONE_KEY(gameId, level));
-    } catch {}
+    removeKey(DONE_KEY(gameId, level));
     setDone(false);
   }, [gameId, level]);
   return { done, markDone, reset };

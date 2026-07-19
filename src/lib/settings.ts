@@ -1,4 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
+import { emit, isBrowser, readJSON, writeJSON } from "./storage";
+import { useWindowEvent } from "./use-window-event";
 
 export type Theme =
   | "sunrise"
@@ -55,23 +57,14 @@ const DEFAULT: Settings = {
 };
 
 function read(): Settings {
-  if (typeof window === "undefined") return DEFAULT;
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    if (!raw) return DEFAULT;
-    return { ...DEFAULT, ...JSON.parse(raw) };
-  } catch {
-    return DEFAULT;
-  }
+  if (!isBrowser()) return DEFAULT;
+  const stored = readJSON<Partial<Settings> | null>(KEY, null);
+  return stored ? { ...DEFAULT, ...stored } : DEFAULT;
 }
 
 function write(s: Settings) {
-  try {
-    window.localStorage.setItem(KEY, JSON.stringify(s));
-    window.dispatchEvent(new CustomEvent("foxfocus:settings"));
-  } catch {
-    /* ignore */
-  }
+  writeJSON(KEY, s);
+  emit("foxfocus:settings");
 }
 
 export function applyTheme(theme: Theme) {
@@ -100,13 +93,12 @@ export function useSettings() {
     applyTheme(s.theme);
     applyA11y(s);
     setHydrated(true);
-    const on = () => setSettings(read());
-    window.addEventListener("foxfocus:settings", on);
-    window.addEventListener("storage", (e) => {
-      if (e.key === KEY) on();
-    });
-    return () => window.removeEventListener("foxfocus:settings", on);
   }, []);
+
+  useWindowEvent("foxfocus:settings", () => setSettings(read()));
+  useWindowEvent("storage", (e) => {
+    if ((e as StorageEvent).key === KEY) setSettings(read());
+  });
 
   const update = useCallback((patch: Partial<Settings>) => {
     const next = { ...read(), ...patch };
