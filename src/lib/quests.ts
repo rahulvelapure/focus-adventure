@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { warnSwallowed } from "./log";
+
 export type Quest = {
   id: string;
   label: string;
@@ -82,7 +84,8 @@ function read(): State {
     const s = JSON.parse(raw) as State;
     if (s.date !== today()) return fresh(s);
     return s;
-  } catch {
+  } catch (error) {
+    warnSwallowed("quests.read", error);
     return fresh();
   }
 }
@@ -91,7 +94,9 @@ function write(s: State) {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(s));
     window.dispatchEvent(new CustomEvent("foxfocus:quests"));
-  } catch {}
+  } catch (error) {
+    warnSwallowed("quests.write", error);
+  }
 }
 
 export type QuestView = Quest & { current: number; done: boolean; claimed: boolean };

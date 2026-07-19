@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { warnSwallowed } from "./log";
+
 export type Level = "easy" | "medium" | "hard" | "adaptive";
 
 export const LEVELS: { id: Level; label: string; hint: string }[] = [
@@ -18,7 +20,9 @@ export function readLevel(id: string): Level {
   try {
     const v = window.localStorage.getItem(LEVEL_KEY(id));
     if (v === "easy" || v === "medium" || v === "hard" || v === "adaptive") return v;
-  } catch {}
+  } catch (error) {
+    warnSwallowed("difficulty.readLevel", error);
+  }
   return "easy";
 }
 
@@ -26,7 +30,9 @@ export function writeLevel(id: string, level: Level) {
   try {
     window.localStorage.setItem(LEVEL_KEY(id), level);
     window.dispatchEvent(new CustomEvent("foxfocus:difficulty"));
-  } catch {}
+  } catch (error) {
+    warnSwallowed("difficulty.writeLevel", error);
+  }
 }
 
 export function readEndless(id: string): boolean {
@@ -37,7 +43,8 @@ export function readEndless(id: string): boolean {
     if (v === "0") return false;
     // Default ON — every game runs endless until the child opts out.
     return true;
-  } catch {
+  } catch (error) {
+    warnSwallowed("difficulty.readEndless", error);
     return true;
   }
 }
@@ -46,7 +53,9 @@ export function writeEndless(id: string, v: boolean) {
   try {
     window.localStorage.setItem(ENDLESS_KEY(id), v ? "1" : "0");
     window.dispatchEvent(new CustomEvent("foxfocus:difficulty"));
-  } catch {}
+  } catch (error) {
+    warnSwallowed("difficulty.writeEndless", error);
+  }
 }
 
 /** Push a normalized 0..1 accuracy sample used by adaptive engine. */
@@ -58,7 +67,9 @@ export function pushSample(id: string, accuracy: number) {
     arr.push(Math.max(0, Math.min(1, accuracy)));
     while (arr.length > 8) arr.shift();
     window.localStorage.setItem(HIST_KEY(id), JSON.stringify(arr));
-  } catch {}
+  } catch (error) {
+    warnSwallowed("difficulty.pushSample", error);
+  }
 }
 
 export function recentAccuracy(id: string): number {
@@ -69,7 +80,8 @@ export function recentAccuracy(id: string): number {
     if (!arr.length) return 0.5;
     const last = arr.slice(-5);
     return last.reduce((a, b) => a + b, 0) / last.length;
-  } catch {
+  } catch (error) {
+    warnSwallowed("difficulty.recentAccuracy", error);
     return 0.5;
   }
 }

@@ -7,6 +7,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { warnSwallowed } from "@/lib/log";
 
 export const Route = createFileRoute("/reaction")({
   head: () => ({
@@ -71,7 +72,9 @@ function Reaction() {
         setBest(t);
         try {
           window.localStorage.setItem("foxfocus.reaction.best", String(t));
-        } catch {}
+        } catch (error) {
+          warnSwallowed("reaction.writeBest", error);
+        }
       }
       if (endless) {
         window.setTimeout(() => start(), 900);

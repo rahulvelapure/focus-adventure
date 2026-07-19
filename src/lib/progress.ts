@@ -1,5 +1,6 @@
 import { pushSample } from "./difficulty";
 import { recordEvent } from "./quests";
+import { warnSwallowed } from "./log";
 
 /**
  * Central hook every game calls when a session ends.
@@ -30,5 +31,7 @@ export function recordPlay(opts: {
     arr.push({ ...opts, at: Date.now() });
     while (arr.length > 200) arr.shift();
     window.localStorage.setItem(KEY, JSON.stringify(arr));
-  } catch {}
+  } catch (error) {
+    warnSwallowed("progress.syncQueue", error);
+  }
 }

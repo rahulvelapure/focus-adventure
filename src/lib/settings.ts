@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 
+import { warnSwallowed } from "./log";
+
 export type Theme =
   | "sunrise"
   | "ocean"
@@ -60,7 +62,8 @@ function read(): Settings {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return DEFAULT;
     return { ...DEFAULT, ...JSON.parse(raw) };
-  } catch {
+  } catch (error) {
+    warnSwallowed("settings.read", error);
     return DEFAULT;
   }
 }
@@ -69,8 +72,8 @@ function write(s: Settings) {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(s));
     window.dispatchEvent(new CustomEvent("foxfocus:settings"));
-  } catch {
-    /* ignore */
+  } catch (error) {
+    warnSwallowed("settings.write", error);
   }
 }
 
