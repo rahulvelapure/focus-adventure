@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.lovable.spark_adventure.twa",
+        "sha256_cert_fingerprints": ["99:7A:68:0F:A6:23:AA:57:B6:95:D2:57:83:A0:12:26:F7:BD:3B:82:50:AC:0A:35:EC:9E:74:8A:AE:E0:B0:E8"]
+      }
+    }]
