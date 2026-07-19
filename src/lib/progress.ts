@@ -1,5 +1,8 @@
 import { pushSample } from "./difficulty";
 import { recordEvent } from "./quests";
+import { readJSON, writeJSON } from "./storage";
+
+const SYNC_QUEUE_KEY = "foxfocus.syncqueue.v1";
 
 /**
  * Central hook every game calls when a session ends.
@@ -23,12 +26,8 @@ export function recordPlay(opts: {
     recordEvent("minutes", gameId, minutes);
   }
   // Queue for future cloud sync when reconnected.
-  try {
-    const KEY = "foxfocus.syncqueue.v1";
-    const raw = window.localStorage.getItem(KEY);
-    const arr = raw ? JSON.parse(raw) : [];
-    arr.push({ ...opts, at: Date.now() });
-    while (arr.length > 200) arr.shift();
-    window.localStorage.setItem(KEY, JSON.stringify(arr));
-  } catch {}
+  const arr = readJSON<Array<Record<string, unknown>>>(SYNC_QUEUE_KEY, []);
+  arr.push({ ...opts, at: Date.now() });
+  while (arr.length > 200) arr.shift();
+  writeJSON(SYNC_QUEUE_KEY, arr);
 }

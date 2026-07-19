@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import { today, yesterdayOf } from "./date";
+import { emit, isBrowser, readJSON, writeJSON } from "./storage";
+import { useWindowEvent } from "./use-window-event";
 
 export type Quest = {
   id: string;
@@ -34,18 +37,6 @@ type State = {
 
 const KEY = "foxfocus.quests.v1";
 
-function today(): string {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
-
-function yesterdayOf(dateStr: string): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const dt = new Date(y, m - 1, d);
-  dt.setDate(dt.getDate() - 1);
-  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
-}
-
 function pickTodaysQuests(): string[] {
   // Deterministic per day so refreshes don't reroll.
   const t = today();
@@ -75,23 +66,16 @@ function fresh(prev?: State): State {
 }
 
 function read(): State {
-  if (typeof window === "undefined") return fresh();
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    if (!raw) return fresh();
-    const s = JSON.parse(raw) as State;
-    if (s.date !== today()) return fresh(s);
-    return s;
-  } catch {
-    return fresh();
-  }
+  if (!isBrowser()) return fresh();
+  const s = readJSON<State | null>(KEY, null);
+  if (!s) return fresh();
+  if (s.date !== today()) return fresh(s);
+  return s;
 }
 
 function write(s: State) {
-  try {
-    window.localStorage.setItem(KEY, JSON.stringify(s));
-    window.dispatchEvent(new CustomEvent("foxfocus:quests"));
-  } catch {}
+  writeJSON(KEY, s);
+  emit("foxfocus:quests");
 }
 
 export type QuestView = Quest & { current: number; done: boolean; claimed: boolean };
@@ -147,10 +131,9 @@ export function useQuests() {
   useEffect(() => {
     setState(read());
     setHydrated(true);
-    const on = () => setState(read());
-    window.addEventListener("foxfocus:quests", on);
-    return () => window.removeEventListener("foxfocus:quests", on);
   }, []);
+
+  useWindowEvent("foxfocus:quests", () => setState(read()));
 
   const list = view(state);
   const doneCount = list.filter((q) => q.done).length;

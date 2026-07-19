@@ -1,14 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
+import { readString, writeString } from "./storage";
+import { useWindowEvent } from "./use-window-event";
 
 const KEY = "foxfocus.stars.v1";
 
 function read(): number {
-  if (typeof window === "undefined") return 0;
-  try {
-    return Number(window.localStorage.getItem(KEY) ?? 0) || 0;
-  } catch {
-    return 0;
-  }
+  return Number(readString(KEY) ?? 0) || 0;
 }
 
 export function useStars() {
@@ -18,20 +15,15 @@ export function useStars() {
   useEffect(() => {
     setStars(read());
     setHydrated(true);
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === KEY) setStars(read());
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
   }, []);
+
+  useWindowEvent("storage", (e) => {
+    if ((e as StorageEvent).key === KEY) setStars(read());
+  });
 
   const add = useCallback((n: number) => {
     const next = Math.max(0, read() + n);
-    try {
-      window.localStorage.setItem(KEY, String(next));
-    } catch {
-      /* ignore */
-    }
+    writeString(KEY, String(next));
     setStars(next);
   }, []);
 

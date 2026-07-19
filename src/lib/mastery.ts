@@ -1,6 +1,8 @@
 // Per-game session logs used by the Progress dashboard.
 // Kept intentionally tiny — a bounded ring buffer in localStorage.
 import { useEffect, useState, useCallback } from "react";
+import { emit, readJSON, removeKey, writeJSON } from "./storage";
+import { useWindowEvent } from "./use-window-event";
 
 export type MathSession = {
   at: number;
@@ -23,23 +25,15 @@ const KEY = (id: string) => `foxfocus.mastery.v1.${id}`;
 const CAP = 60;
 
 function read<T>(id: string): T[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(KEY(id));
-    return raw ? (JSON.parse(raw) as T[]) : [];
-  } catch {
-    return [];
-  }
+  return readJSON<T[]>(KEY(id), []);
 }
 
 function push<T>(id: string, item: T) {
-  try {
-    const arr = read<T>(id);
-    arr.push(item);
-    while (arr.length > CAP) arr.shift();
-    window.localStorage.setItem(KEY(id), JSON.stringify(arr));
-    window.dispatchEvent(new CustomEvent("foxfocus:mastery"));
-  } catch {}
+  const arr = read<T>(id);
+  arr.push(item);
+  while (arr.length > CAP) arr.shift();
+  writeJSON(KEY(id), arr);
+  emit("foxfocus:mastery");
 }
 
 export function recordMath(s: MathSession) { push("math", s); }
@@ -49,19 +43,15 @@ export function useHistory<T>(id: "math" | "words"): T[] {
   const [items, setItems] = useState<T[]>([]);
   useEffect(() => {
     setItems(read<T>(id));
-    const on = () => setItems(read<T>(id));
-    window.addEventListener("foxfocus:mastery", on);
-    return () => window.removeEventListener("foxfocus:mastery", on);
   }, [id]);
+  useWindowEvent("foxfocus:mastery", () => setItems(read<T>(id)));
   return items;
 }
 
 export function useClearMastery() {
   return useCallback((id: "math" | "words") => {
-    try {
-      window.localStorage.removeItem(KEY(id));
-      window.dispatchEvent(new CustomEvent("foxfocus:mastery"));
-    } catch {}
+    removeKey(KEY(id));
+    emit("foxfocus:mastery");
   }, []);
 }
 

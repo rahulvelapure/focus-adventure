@@ -7,6 +7,7 @@ import { DifficultyPicker } from "@/components/DifficultyPicker";
 import { CbtCoach } from "@/components/CbtCoach";
 import { useDifficulty } from "@/lib/difficulty";
 import { recordPlay } from "@/lib/progress";
+import { readString, writeString } from "@/lib/storage";
 
 export const Route = createFileRoute("/reaction")({
   head: () => ({
@@ -31,7 +32,7 @@ function Reaction() {
   const { effective, endless } = useDifficulty("reaction");
 
   useEffect(() => {
-    const raw = window.localStorage.getItem("foxfocus.reaction.best");
+    const raw = readString("foxfocus.reaction.best");
     if (raw) setBest(Number(raw));
     return () => {
       if (timer.current) window.clearTimeout(timer.current);
@@ -69,9 +70,7 @@ function Reaction() {
       setRound((r) => r + 1);
       if (best == null || t < best) {
         setBest(t);
-        try {
-          window.localStorage.setItem("foxfocus.reaction.best", String(t));
-        } catch {}
+        writeString("foxfocus.reaction.best", String(t));
       }
       if (endless) {
         window.setTimeout(() => start(), 900);
