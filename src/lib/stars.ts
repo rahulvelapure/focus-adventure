@@ -1,12 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
 
+import { warnSwallowed } from "./log";
+
 const KEY = "foxfocus.stars.v1";
 
 function read(): number {
   if (typeof window === "undefined") return 0;
   try {
     return Number(window.localStorage.getItem(KEY) ?? 0) || 0;
-  } catch {
+  } catch (error) {
+    warnSwallowed("stars.read", error);
     return 0;
   }
 }
@@ -29,8 +32,8 @@ export function useStars() {
     const next = Math.max(0, read() + n);
     try {
       window.localStorage.setItem(KEY, String(next));
-    } catch {
-      /* ignore */
+    } catch (error) {
+      warnSwallowed("stars.add", error);
     }
     setStars(next);
   }, []);

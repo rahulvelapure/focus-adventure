@@ -2,6 +2,8 @@
 // Kept intentionally tiny — a bounded ring buffer in localStorage.
 import { useEffect, useState, useCallback } from "react";
 
+import { warnSwallowed } from "./log";
+
 export type MathSession = {
   at: number;
   range: number;          // max number the child faced this run
@@ -27,7 +29,8 @@ function read<T>(id: string): T[] {
   try {
     const raw = window.localStorage.getItem(KEY(id));
     return raw ? (JSON.parse(raw) as T[]) : [];
-  } catch {
+  } catch (error) {
+    warnSwallowed("mastery.read", error);
     return [];
   }
 }
@@ -39,7 +42,9 @@ function push<T>(id: string, item: T) {
     while (arr.length > CAP) arr.shift();
     window.localStorage.setItem(KEY(id), JSON.stringify(arr));
     window.dispatchEvent(new CustomEvent("foxfocus:mastery"));
-  } catch {}
+  } catch (error) {
+    warnSwallowed("mastery.push", error);
+  }
 }
 
 export function recordMath(s: MathSession) { push("math", s); }
@@ -61,7 +66,9 @@ export function useClearMastery() {
     try {
       window.localStorage.removeItem(KEY(id));
       window.dispatchEvent(new CustomEvent("foxfocus:mastery"));
-    } catch {}
+    } catch (error) {
+      warnSwallowed("mastery.clear", error);
+    }
   }, []);
 }
 

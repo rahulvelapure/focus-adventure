@@ -6,6 +6,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import { warnSwallowed } from "./log";
+
 export type CbtLevel = "easy" | "medium" | "hard";
 
 export type DrillStep = {
@@ -585,18 +587,24 @@ export function useCbtDone(gameId: string, level: CbtLevel) {
   useEffect(() => {
     try {
       setDone(window.localStorage.getItem(DONE_KEY(gameId, level)) === "1");
-    } catch {}
+    } catch (error) {
+      warnSwallowed("cbt.readDone", error);
+    }
   }, [gameId, level]);
   const markDone = useCallback(() => {
     try {
       window.localStorage.setItem(DONE_KEY(gameId, level), "1");
-    } catch {}
+    } catch (error) {
+      warnSwallowed("cbt.markDone", error);
+    }
     setDone(true);
   }, [gameId, level]);
   const reset = useCallback(() => {
     try {
       window.localStorage.removeItem(DONE_KEY(gameId, level));
-    } catch {}
+    } catch (error) {
+      warnSwallowed("cbt.reset", error);
+    }
     setDone(false);
   }, [gameId, level]);
   return { done, markDone, reset };
